@@ -43,6 +43,7 @@ namespace Carbonara
             });
 
             services.AddSingleton<IHttpClientHandler, HttpClientHandler>();
+            services.AddScoped<IBlockchainInfoService, BlockchainInfoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
