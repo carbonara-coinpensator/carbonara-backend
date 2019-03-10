@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Carbonara.Models;
+using Newtonsoft.Json;
 
 namespace Carbonara.Services
 {
@@ -11,7 +13,7 @@ namespace Carbonara.Services
             _httpClient = httpClient;    
         }
 
-        public async Task<string> GetTransactionDetailsAsync(string txHash)
+        public async Task<TransactionDetails> GetTransactionDetailsAsync(string txHash)
         {
             var url = $"https://blockchain.info/rawtx/{txHash}";
 
@@ -19,7 +21,9 @@ namespace Carbonara.Services
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            return responseContent;
+            var transactionDetails = JsonConvert.DeserializeObject<TransactionDetails>(responseContent);
+
+            return transactionDetails;
         }
     }
 }

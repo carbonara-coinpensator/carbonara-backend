@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
+using Carbonara.Models;
 
 namespace Carbonara.Services
 {
     public interface IBlockchainInfoService
     {
-        Task<string> GetTransactionDetailsAsync(string txHash);
+        Task<TransactionDetails> GetTransactionDetailsAsync(string txHash);
     }
 }
