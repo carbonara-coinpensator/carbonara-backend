@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Carbonara.Models;
 using Carbonara.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,13 @@ namespace Carbonara.Controllers
     [Route("api/[controller]")]
     public class BlockchainInfoController : ControllerBase
     {
-        private readonly IBlockchainInfoService _blockchainInfoService;
+        private readonly IBlockParametersService _blockParametersService;
+        private readonly INetworkHashRateService _networkHashRateService;
 
-        public BlockchainInfoController(IBlockchainInfoService blockchainInfoService)
+        public BlockchainInfoController(IBlockParametersService blockParametersService, INetworkHashRateService networkHashRateService)
         {
-            _blockchainInfoService = blockchainInfoService;
+            _blockParametersService = blockParametersService;
+            _networkHashRateService = networkHashRateService;
         }
 
         /// <summary>
@@ -23,7 +26,15 @@ namespace Carbonara.Controllers
         [HttpGet("txHash")]
         public async Task<IActionResult> GetFormulaParametersAsync(string txHash)
         {
-            var formulaParameters = await _blockchainInfoService.GetFormulaParametersAsync(txHash);
+            var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
+            var hashRate = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds);
+
+            var formulaParameters = new FormulaParameters
+            {
+                BlockTimeInSeconds = blockParameters.BlockTimeInSeconds,
+                HashRateOfDayTxWasMined = hashRate,
+                NumberOfTransactionsInBlock = blockParameters.NumberOfTransactionsInBlock
+            };
 
             return Ok(formulaParameters);
         }
