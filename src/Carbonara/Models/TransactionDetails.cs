@@ -2,10 +2,11 @@ namespace Carbonara.Models
 {
     public class TransactionDetails
     {
-        public string relayed_by;
-        
-        public int time;
-
-        public int block_height { get; set; }
+        public string txid { get; set; }
+        public string blockhash { get; set; }
+        public int blockheight { get; set; }
+        public int confirmations { get; set; }
+        public int time { get; set; }
+        public int blocktime { get; set; }
     }
 }

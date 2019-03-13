@@ -15,7 +15,7 @@ namespace Carbonara.Services
 
         public async Task<TransactionDetails> GetTransactionDetailsAsync(string txHash)
         {
-            var url = $"https://blockchain.info/rawtx/{txHash}";
+            var url = $"https://blockexplorer.com/api/tx/{txHash}";
 
             var response = await _httpClient.GetAsync(url);
 

@@ -14,11 +14,12 @@ namespace Carbonara.Controllers
             _blockchainInfoService = blockchainInfoService;
         }
 
-        [HttpGet("{tx}")]
+        [HttpGet("tx")]
         public async Task<IActionResult> GetTransactionDetailsAsync(string tx)
         {
-            var result = await _blockchainInfoService.GetTransactionDetailsAsync(tx);
-            return Ok(result);
+            var transactionDetails = await _blockchainInfoService.GetTransactionDetailsAsync(tx);
+
+            return Ok(transactionDetails);
         }
     }
 }
