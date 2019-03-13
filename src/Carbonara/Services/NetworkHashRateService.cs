@@ -1,42 +1,20 @@
-using System;
 using System.Threading.Tasks;
-using Carbonara.Models;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+using Carbonara.Providers;
 
 namespace Carbonara.Services
 {
     public class NetworkHashRateService : INetworkHashRateService
     {
-        private readonly IConfiguration _configuration;
-        private readonly IHttpClientHandler _httpClient;
+        private readonly IGlobalHashRateProvider _globalHashRateProvider;
 
-        public NetworkHashRateService(IConfiguration configuration, IHttpClientHandler httpClient)
+        public NetworkHashRateService(IGlobalHashRateProvider globalHashRateProvider)
         {
-            _configuration = configuration;
-            _httpClient = httpClient;
+            _globalHashRateProvider = globalHashRateProvider;
         }
 
         public async Task<double> GetDailyHashRateInPastAsync(int blockTime)
-        {
-            var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockTime);
-            var dateDiff = DateTime.Now - dateOfTransaction;
-
-            var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={dateDiff.Days + 1}days&format=json";
-            var responseContent = await GetResponseContent(url);
-
-            var hashRate = JsonConvert.DeserializeObject<GlobalHashRate>(responseContent);
-            var hashRateOfFirstDayInPeriod = hashRate.values[0].y;
-
-            return hashRateOfFirstDayInPeriod;
-        }
-
-        private async Task<string> GetResponseContent(string url)
-        {
-            var response = await _httpClient.GetAsync(url);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
+        {        
+            return await _globalHashRateProvider.GetDailyHashRateAsync(blockTime);
         }
     }
 }

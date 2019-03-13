@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Carbonara.Providers;
 using Carbonara.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +46,9 @@ namespace Carbonara
             services.AddSingleton<IHttpClientHandler, HttpClientHandler>();
             services.AddScoped<IBlockParametersService, BlockParametersService>();
             services.AddScoped<INetworkHashRateService, NetworkHashRateService>();
+
+            services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
+            services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
