@@ -19,6 +19,12 @@ namespace Carbonara.Controllers
         {
             var transactionDetails = await _blockchainInfoService.GetTransactionDetailsAsync(tx);
 
+            var blockDetails = await _blockchainInfoService.GetBlockDetailsAsync(transactionDetails.blockhash);
+
+            var previousBlockDetails = await _blockchainInfoService.GetBlockDetailsAsync(blockDetails.previousblockhash);
+
+            var timeBetweenBlocksInSeconds = (blockDetails.time - previousBlockDetails.time) * 60;
+
             return Ok(transactionDetails);
         }
     }
