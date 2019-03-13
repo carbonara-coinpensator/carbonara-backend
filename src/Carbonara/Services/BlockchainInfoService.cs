@@ -20,10 +20,7 @@ namespace Carbonara.Services
         public async Task<BlockDetails> GetBlockDetailsAsync(string blockHash)
         {
             var url = $"{_configuration["Api:BlockExplorer"]}/block/{blockHash}";
-
-            var response = await _httpClient.GetAsync(url);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await GetResponseContent(url);
 
             var blockDetails = JsonConvert.DeserializeObject<BlockDetails>(responseContent);
 
@@ -33,14 +30,19 @@ namespace Carbonara.Services
         public async Task<TransactionDetails> GetTransactionDetailsAsync(string txHash)
         {
             var url = $"{_configuration["Api:BlockExplorer"]}/tx/{txHash}";
-
-            var response = await _httpClient.GetAsync(url);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await GetResponseContent(url);
 
             var transactionDetails = JsonConvert.DeserializeObject<TransactionDetails>(responseContent);
 
             return transactionDetails;
+        }
+
+        private async Task<string> GetResponseContent(string url)
+        {
+            var response = await _httpClient.GetAsync(url);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
         }
     }
 }
