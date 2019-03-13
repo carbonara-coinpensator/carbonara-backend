@@ -18,22 +18,9 @@ namespace Carbonara.Controllers
         [HttpGet("tx")]
         public async Task<IActionResult> GetTransactionDetailsAsync(string tx)
         {
-            var transactionDetails = await _blockchainInfoService.GetTransactionDetailsAsync(tx);
+            var formulaParameters = await _blockchainInfoService.GetFormulaParametersAsync(tx);
 
-            var blockDetails = await _blockchainInfoService.GetBlockDetailsAsync(transactionDetails.blockhash);
-
-            var previousBlockDetails = await _blockchainInfoService.GetBlockDetailsAsync(blockDetails.previousblockhash);
-
-            var timeBetweenBlocksInSeconds = (blockDetails.time - previousBlockDetails.time) * 60;
-
-            var timeOfBlockDate = TimeSpan.FromSeconds(blockDetails.time);
-
-            var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockDetails.time);
-            var dateDiff = DateTime.Now - dateOfTransaction;
-
-            var hashRateOfDayTxWasMined = await _blockchainInfoService.GetDailyHashRateInPastAsync(dateDiff.Days + 1);
-
-            return Ok(transactionDetails);
+            return Ok(formulaParameters);
         }
     }
 }

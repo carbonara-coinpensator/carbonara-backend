@@ -5,8 +5,6 @@ namespace Carbonara.Services
 {
     public interface IBlockchainInfoService
     {
-        Task<TransactionDetails> GetTransactionDetailsAsync(string txHash);
-        Task<BlockDetails> GetBlockDetailsAsync(string blockHash);
-        Task<double> GetDailyHashRateInPastAsync(int numberOfDays);
+        Task<FormulaParameters> GetFormulaParametersAsync(string txHash);
     }
 }
