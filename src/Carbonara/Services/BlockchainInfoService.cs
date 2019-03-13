@@ -33,7 +33,8 @@ namespace Carbonara.Services
             return new FormulaParameters
             {
                 BlockTimeInSeconds = blockTimeInSeconds,
-                HashRateOfDayTxWasMined = hashRateOfDayTxWasMined
+                HashRateOfDayTxWasMined = hashRateOfDayTxWasMined,
+                NumberOfTransactionsInBlock = blockDetails.tx.Count
             };
         }
 

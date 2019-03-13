@@ -4,5 +4,6 @@ namespace Carbonara.Models
     {
         public int BlockTimeInSeconds { get; set; }
         public double HashRateOfDayTxWasMined { get; set; }
+        public int NumberOfTransactionsInBlock { get; set; }
     }
 }
