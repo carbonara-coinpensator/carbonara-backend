@@ -37,6 +37,17 @@ namespace Carbonara.Services
             return transactionDetails;
         }
 
+        public async Task<double> GetDailyHashRateInPastAsync(int numberOfDays)
+        {
+            var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={numberOfDays}days&format=json";
+            var responseContent = await GetResponseContent(url);
+
+            var hashRate = JsonConvert.DeserializeObject<GlobalHashRate>(responseContent);
+            var hashRateOfFirstDayInPeriod = hashRate.values[0].y;
+
+            return hashRateOfFirstDayInPeriod;
+        }
+
         private async Task<string> GetResponseContent(string url)
         {
             var response = await _httpClient.GetAsync(url);

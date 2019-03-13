@@ -7,5 +7,6 @@ namespace Carbonara.Services
     {
         Task<TransactionDetails> GetTransactionDetailsAsync(string txHash);
         Task<BlockDetails> GetBlockDetailsAsync(string blockHash);
+        Task<double> GetDailyHashRateInPastAsync(int numberOfDays);
     }
 }

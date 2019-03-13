@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Carbonara.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,13 @@ namespace Carbonara.Controllers
             var previousBlockDetails = await _blockchainInfoService.GetBlockDetailsAsync(blockDetails.previousblockhash);
 
             var timeBetweenBlocksInSeconds = (blockDetails.time - previousBlockDetails.time) * 60;
+
+            var timeOfBlockDate = TimeSpan.FromSeconds(blockDetails.time);
+
+            var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockDetails.time);
+            var dateDiff = DateTime.Now - dateOfTransaction;
+
+            var hashRateOfDayTxWasMined = await _blockchainInfoService.GetDailyHashRateInPastAsync(dateDiff.Days + 1);
 
             return Ok(transactionDetails);
         }
