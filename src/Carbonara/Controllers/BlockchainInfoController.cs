@@ -15,10 +15,15 @@ namespace Carbonara.Controllers
             _blockchainInfoService = blockchainInfoService;
         }
 
-        [HttpGet("tx")]
-        public async Task<IActionResult> GetTransactionDetailsAsync(string tx)
+        /// <summary>
+        /// Get parameters for formula of given transaction
+        /// </summary>
+        /// <param name="txHash">transaction hash</param>
+        /// <response code="200">Formula parameters</response>
+        [HttpGet("txHash")]
+        public async Task<IActionResult> GetFormulaParametersAsync(string txHash)
         {
-            var formulaParameters = await _blockchainInfoService.GetFormulaParametersAsync(tx);
+            var formulaParameters = await _blockchainInfoService.GetFormulaParametersAsync(txHash);
 
             return Ok(formulaParameters);
         }
