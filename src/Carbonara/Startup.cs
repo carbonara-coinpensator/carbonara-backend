@@ -47,9 +47,11 @@ namespace Carbonara
             services.AddScoped<ICalculationService, CalculationService>();
             services.AddScoped<IBlockParametersService, BlockParametersService>();
             services.AddScoped<INetworkHashRateService, NetworkHashRateService>();
+            services.AddScoped<IMiningHardwareService, MiningHardwareService>();
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
+            services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

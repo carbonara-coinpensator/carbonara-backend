@@ -28,17 +28,6 @@ namespace Carbonara.Controllers
             return Ok(formulaParameters);
         }
 
-        /// <summary>
-        /// TEST
-        /// </summary>
-        /// <param name="txHash">transaction hash</param>
-        /// <response code="200">Formula parameters</response>
-        [HttpGet("hardware")]
-        public async Task<IActionResult> GetHardware()
-        {
-            var formulaParameters = await _blockchainInfoService.GetFormulaParametersAsync(txHash);
-
-            return Ok(formulaParameters);
-        }
+        
     }
 }
