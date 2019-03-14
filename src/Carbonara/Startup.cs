@@ -6,9 +6,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Carbonara.Providers;
 using Carbonara.Providers.CountryCo2EmissionProvider;
+using Carbonara.Providers.HashRatePerPoolProvider;
 using Carbonara.Providers.PoolHashRateProvider;
 using Carbonara.Services;
 using Carbonara.Services.CountryCo2EmissionService;
+using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Services.PoolHashRateService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,11 +56,14 @@ namespace Carbonara
             services.AddScoped<IMiningHardwareService, MiningHardwareService>();
             services.AddScoped<IPoolHashRateService, PoolHashRateService>();
             services.AddScoped<ICountryCo2EmissionService, CountryCo2EmissionService>();
+            services.AddScoped<IHashRatePerPoolService, HashRatePerPoolService>();
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
             services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();
             services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();     
+            services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();
+            services.AddScoped<IHashRatePerPoolProvider, HashRatePerPoolProvider>();
             services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();     
 
             services.AddCors(options => options.AddPolicy("AllowAll", builder =>

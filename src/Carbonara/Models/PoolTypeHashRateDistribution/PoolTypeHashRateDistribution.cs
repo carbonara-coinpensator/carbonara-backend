@@ -5,6 +5,6 @@ namespace Carbonara.Models.PoolTypeHashRateDistribution
     public class PoolTypeHashRateDistribution
     {
         public string PoolType { get; set; }
-        public ICollection<HashRateDistributionPerCountry> DistributionPerCOuntry { get; set; }
+        public ICollection<HashRateDistributionPerCountry> DistributionPerCountry { get; set; }
     }
 }

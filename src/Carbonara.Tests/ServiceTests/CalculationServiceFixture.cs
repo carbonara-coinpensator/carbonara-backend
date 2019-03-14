@@ -7,9 +7,11 @@ using Carbonara.Models.Country;
 using Carbonara.Models.Formula;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Models.PoolHashRateDistribution;
+using Carbonara.Models.PoolTypeHashRateDistribution;
 using Carbonara.Providers;
 using Carbonara.Services;
 using Carbonara.Services.CountryCo2EmissionService;
+using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Services.PoolHashRateService;
 using Moq;
 using Xunit;
@@ -81,61 +83,6 @@ namespace Carbonara.Tests.ServiceTests
                 )
             );
 
-            //         var geoDistributionOfHashratePerPoolType = new List<PoolTypeHashRateDistribution>() {
-            // new PoolTypeHashRateDistribution()
-            //     {
-            //         PoolType = "BTC",
-            //         DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-            //             {
-            //                 new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 60.8m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 25.2m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 14m }
-            //             }
-            //     },
-            // new PoolTypeHashRateDistribution()
-            //     {
-            //         PoolType = "SLUSH",
-            //         DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-            //             {
-            //                 new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 14.65m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 5.38m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 45.65m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 1.37m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0.94m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 31.99m }
-            //             }
-            //     },
-            // new PoolTypeHashRateDistribution()
-            //     {
-            //         PoolType = "CN",
-            //         DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-            //             {
-            //                 new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 100m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 0m }
-            //             }
-            //     },
-            // new PoolTypeHashRateDistribution()
-            //     {
-            //         PoolType = "US",
-            //         DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-            //             {
-            //                 new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
-            //                 new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 100m }
-            //             }
-            //     }
-            //  }; // A list of geo categories (pool types) with their participation in the hashrate per country
-
             var miningHardwareServiceMock = new Mock<IMiningHardwareService>();
             miningHardwareServiceMock.Setup(x=> x.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013))
                 .Returns(Task.FromResult
@@ -145,14 +92,77 @@ namespace Carbonara.Tests.ServiceTests
                         new MiningDevice { HashRate = 14000000000000, PowerConsumption = 1375 },
                     }
                 )
-                );
+            );
+        
+            var hashRatePerPoolServiceMock = new Mock<IHashRatePerPoolService>();
+            hashRatePerPoolServiceMock.Setup(x=> x.GetHashRatePerPoolAsync())
+                .Returns(Task.FromResult
+                (
+                   new List<PoolTypeHashRateDistribution>() 
+                   {
+                        new PoolTypeHashRateDistribution()
+                            {
+                                PoolType = "BTC",
+                                DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                                    {
+                                        new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 60.8m },
+                                        new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 25.2m },
+                                        new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 14m }
+                                    }
+                            },
+                        new PoolTypeHashRateDistribution()
+                            {
+                                PoolType = "SLUSH",
+                                DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                                    {
+                                        new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 14.65m },
+                                        new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 5.38m },
+                                        new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 45.65m },
+                                        new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 1.37m },
+                                        new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0.94m },
+                                        new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 31.99m }
+                                    }
+                            },
+                        new PoolTypeHashRateDistribution()
+                            {
+                                PoolType = "CN",
+                                DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                                    {
+                                        new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 100m },
+                                        new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 0m }
+                                    }
+                            },
+                        new PoolTypeHashRateDistribution()
+                            {
+                                PoolType = "US",
+                                DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                                    {
+                                        new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                                        new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 100m }
+                                    }
+                            }
+                        }
+                )
+            );
 
             _calculationService = new CalculationService(
                 blockParametersServiceMock.Object,
                 networkHashRateServiceMock.Object,
                 poolHashRateServiceMock.Object,
                 countryCo2EmissionServiceMock.Object,
-                miningHardwareServiceMock.Object
+                miningHardwareServiceMock.Object,
+                hashRatePerPoolServiceMock.Object
             );
         }
 
