@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Carbonara.Models.Country;
 using Carbonara.Models.PoolHashRateDistribution;
+using Carbonara.Models.PoolTypeHashRateDistribution;
 using Carbonara.Services;
 
 public class CalculationService : ICalculationService
@@ -29,10 +31,32 @@ public class CalculationService : ICalculationService
             new Pool { Name = "F2Pool", Percent = 14.6m, PoolType = "BTC"  },
             new Pool { Name = "Poolin", Percent = 10.95m, PoolType = "BTC"  },
             new Pool { Name = "ViaBTC", Percent = 10.95m, PoolType = "BTC"  }
-        }; // A list of pools with geo category and their participation in the hash rate 
-        
-        // var geoDistributionOfHashratePerPoolCategory // A list of geo categories with their participation in the hashrate per region
-        // var c02EmissionsPerRegion // A list of countries with their latest co2 emission per kwh
+        }; // A list of pools with geo category (pool type) and their participation in the hash rate 
+
+        var countriesWithCo2Emission = new List<Country>() {
+            new Country { CountryCode = "CA", Co2Emission = 158.42m },
+            new Country { CountryCode = "CN", Co2Emission = 711.3686m },
+            new Country { CountryCode = "EU", Co2Emission = 336.8498m },
+            new Country { CountryCode = "JP", Co2Emission = 571.5443m },
+            new Country { CountryCode = "SG", Co2Emission = 431.3m },
+            new Country { CountryCode = "US", Co2Emission = 489.4282m }
+        }; // A list of countries with their latest co2 emission per kwh
+
+        var geoDistributionOfHashratePerPoolCategory = new List<PoolTypeHashRateDistribution>() {
+            new PoolTypeHashRateDistribution()
+                {
+                    PoolType = "BTC",
+                    DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
+                        {
+                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 60.8m },
+                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 25.2m },
+                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 14m }
+                        }
+                }
+             }; // A list of geo categories (pool types) with their participation in the hashrate per region
 
         var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
         var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600; // The energy used by one machine to mine that block
@@ -40,13 +64,14 @@ public class CalculationService : ICalculationService
         var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / noOftransactionsInTheBlock;
 
         var energyConsumptionPerPoolPerTransactionInKwh = new Dictionary<string, decimal>();
-        
-        foreach(var pool in hashRateDistributionPerPool) {
+
+        foreach (var pool in hashRateDistributionPerPool)
+        {
             var poolEnergyConsumption = fullEnergyConsumptionPerTransactionInKWH * pool.Percent / 100;
             energyConsumptionPerPoolPerTransactionInKwh.Add(pool.Name, poolEnergyConsumption);
         }
 
-        
+
 
         var result = await Task.FromResult(201.2m);
         return result;

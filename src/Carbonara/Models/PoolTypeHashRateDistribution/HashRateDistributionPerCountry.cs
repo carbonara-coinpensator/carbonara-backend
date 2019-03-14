@@ -5,7 +5,7 @@ namespace Carbonara.Models.PoolTypeHashRateDistribution
 {
     public class HashRateDistributionPerCountry
     {
-        public Country.Country Country { get; set; }
+        public string CountryCode { get; set; }
         public decimal Percentage {get; set;}
     }
 }
