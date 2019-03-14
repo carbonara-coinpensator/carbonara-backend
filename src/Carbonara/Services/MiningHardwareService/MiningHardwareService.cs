@@ -17,9 +17,19 @@ namespace Carbonara.Services
             this.jsonHardwareProvider = jsonHardwareProvider;
         }
 
-        public async Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm alogrithm)
+        public async Task<List<MiningDevice>> GetAll()
         {
-            return await jsonHardwareProvider.GetHardwareByMiningAlgorithm(alogrithm);
+            return await jsonHardwareProvider.GetAll();
+        }
+
+        public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
+        {
+            return await jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);
+        }
+
+        public async Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm algorithm)
+        {
+            return await jsonHardwareProvider.GetHardwareByMiningAlgorithm(algorithm);
         }
     }
 }

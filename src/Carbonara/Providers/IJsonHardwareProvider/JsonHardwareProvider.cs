@@ -11,29 +11,38 @@ namespace Carbonara.Services
 {
     public class JsonHardwareProvider : IJsonHardwareProvider
     {
-        private readonly string _path;
-
         public JsonHardwareProvider()
         {
-            _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
-        public async Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm alogrithm = MiningAlgorithm.SHA256)
+
+        public async Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm algorithm = MiningAlgorithm.SHA256)
         {
-            var devices = await ReadDevicesFromFile($"{_path}/MiningHardware.json");
-            return devices.Where(i => i.Algorithm == alogrithm).ToList();
+            var devices = await GetAll();
+            return devices.Where(i => i.Algorithm == algorithm).ToList();
         }
 
         public async Task<List<MiningDevice>> GetAll()
         {
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-            var devices = await ReadDevicesFromFile($"{_path}/MiningHardware.json");
+            var devices = await ReadDevicesFromFile($"MiningHardware.json");
             return devices.ToList();
-        }        
+        }
+
+        public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
+        {
+            var devices = await GetAll();
+            return devices.Where(i => i.Algorithm == algorithm && i.ProductionYear == year).ToList();
+        }
+
+        public async Task<List<int>> GetAvailableYears()
+        {
+            var devices = await GetAll();
+            return devices.Select(i => i.ProductionYear).ToList();
+        }
 
         private async Task<List<MiningDevice>> ReadDevicesFromFile(string filename)
         {
-            using (StreamReader reader = new StreamReader(filename))
+            var _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            using (StreamReader reader = new StreamReader($"{_path}/{filename}"))
             {
                 var json = await reader.ReadToEndAsync();
                 return JsonConvert.DeserializeObject<List<MiningDevice>>(json);
