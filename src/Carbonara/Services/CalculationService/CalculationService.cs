@@ -48,6 +48,7 @@ public class CalculationService : ICalculationService
         var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000; // 14; // Average hashrate of a machine TH/s
         var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000; // 1.372m; // Average machine energy consumption KW/h
 
+        var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
         var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
 
         // A list of geo categories (pool types) with their participation in the hashrate per region
