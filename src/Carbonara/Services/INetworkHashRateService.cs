@@ -4,6 +4,6 @@ namespace Carbonara.Services
 {
     public interface INetworkHashRateService
     {
-        Task<double> GetDailyHashRateInPastAsync(int blockTime);
+        Task<decimal> GetDailyHashRateInPastAsync(int blockTime);
     }
 }

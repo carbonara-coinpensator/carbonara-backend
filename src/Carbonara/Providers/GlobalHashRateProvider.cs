@@ -17,7 +17,7 @@ namespace Carbonara.Providers
             _httpClient = httpClient;
         }
 
-        public async Task<double> GetDailyHashRateAsync(int numberOfDays)
+        public async Task<decimal> GetDailyHashRateAsync(int numberOfDays)
         {
             var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={numberOfDays}days&format=json";
             var responseContent = await GetResponseContent(url);
@@ -26,7 +26,7 @@ namespace Carbonara.Providers
 
             var hashRateOfFirstDayInPeriod = hashRate.values[0].y;
 
-            return hashRateOfFirstDayInPeriod;
+            return (decimal) hashRateOfFirstDayInPeriod;
         }
 
         private async Task<string> GetResponseContent(string url)
