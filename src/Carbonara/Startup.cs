@@ -83,6 +83,7 @@ namespace Carbonara
                 c.RoutePrefix = string.Empty;
             });
 
+            app.UseCors("AllowAll");
             app.UseMvc();
         }
     }
