@@ -10,13 +10,11 @@ namespace Carbonara.Controllers
     [Route("api/[controller]")]
     public class CarbonaraController : ControllerBase
     {
-        private readonly IBlockParametersService _blockParametersService;
-        private readonly INetworkHashRateService _networkHashRateService;
+        private readonly ICalculationService _calculationService;
 
-        public CarbonaraController(IBlockParametersService blockParametersService, INetworkHashRateService networkHashRateService)
+        public CarbonaraController(ICalculationService calculationService)
         {
-            _blockParametersService = blockParametersService;
-            _networkHashRateService = networkHashRateService;
+            _calculationService = calculationService;
         }
 
         /// <summary>
@@ -74,16 +72,7 @@ namespace Carbonara.Controllers
             [FromQuery(Name="HashingAlgorithm")]string hashingAlgorithm = "0",
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
-            // var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
-            // var hashRate = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds);
-
-            // var formulaParameters = new FormulaParameters
-            // {
-            //     BlockTimeInSeconds = blockParameters.BlockTimeInSeconds,
-            //     HashRateOfDayTxWasMined = hashRate,
-            //     NumberOfTransactionsInBlock = blockParameters.NumberOfTransactionsInBlock
-            // };
-            var result = await Task.FromResult(201.2);
+            var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
             return Ok(result);
         }
     }

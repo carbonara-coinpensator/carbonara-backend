@@ -44,6 +44,7 @@ namespace Carbonara
             });
 
             services.AddSingleton<IHttpClientHandler, HttpClientHandler>();
+            services.AddScoped<ICalculationService, CalculationService>();
             services.AddScoped<IBlockParametersService, BlockParametersService>();
             services.AddScoped<INetworkHashRateService, NetworkHashRateService>();
 
