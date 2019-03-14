@@ -5,7 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Carbonara.Providers;
+using Carbonara.Providers.PoolHashRateProvider;
 using Carbonara.Services;
+using Carbonara.Services.PoolHashRateService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,10 +50,12 @@ namespace Carbonara
             services.AddScoped<IBlockParametersService, BlockParametersService>();
             services.AddScoped<INetworkHashRateService, NetworkHashRateService>();
             services.AddScoped<IMiningHardwareService, MiningHardwareService>();
+            services.AddScoped<IPoolHashRateService, PoolHashRateService>();
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
-            services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();            
+            services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();
+            services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

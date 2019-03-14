@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Services;
@@ -18,12 +17,9 @@ namespace Carbonara.Providers
             _httpClient = httpClient;
         }
 
-        public async Task<double> GetDailyHashRateAsync(int blockTime)
+        public async Task<double> GetDailyHashRateAsync(int numberOfDays)
         {
-            var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockTime);
-            var dateDiff = DateTime.Now - dateOfTransaction;
-
-            var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={dateDiff.Days + 1}days&format=json";
+            var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={numberOfDays}days&format=json";
             var responseContent = await GetResponseContent(url);
 
             var hashRate = JsonConvert.DeserializeObject<GlobalHashRate>(responseContent);
