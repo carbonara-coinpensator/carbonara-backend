@@ -85,7 +85,6 @@ public class CalculationService : ICalculationService
             new PoolTypeHashRateDistribution()
                 {
                     PoolType = "SLUSH",
-<<<<<<< HEAD
                     DistributionPerCountry = new List<HashRateDistributionPerCountry>()
                         {
                             new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 14.65293787m },
@@ -113,22 +112,6 @@ public class CalculationService : ICalculationService
                 {
                     PoolType = "CN",
                     DistributionPerCountry = new List<HashRateDistributionPerCountry>()
-=======
-                    DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-                        {
-                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 14.65m },
-                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 5.38m },
-                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 45.65m },
-                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 1.37m },
-                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0.94m },
-                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 31.99m }
-                        }
-                },
-            new PoolTypeHashRateDistribution()
-                {
-                    PoolType = "CN",
-                    DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
->>>>>>> master
                         {
                             new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
                             new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 100m },
@@ -138,7 +121,6 @@ public class CalculationService : ICalculationService
                             new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 0m }
                         }
                 },
-<<<<<<< HEAD
                 new PoolTypeHashRateDistribution()
                 {
                     PoolType = "OTH",
@@ -154,22 +136,6 @@ public class CalculationService : ICalculationService
                 },
 
              }; // A list of geo categories (pool types) with their participation in the hashrate per region
-=======
-            new PoolTypeHashRateDistribution()
-                {
-                    PoolType = "US",
-                    DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
-                        {
-                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
-                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 0m },
-                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
-                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
-                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
-                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 100m }
-                        }
-                }
-             }; // A list of geo categories (pool types) with their participation in the hashrate per country
->>>>>>> master
 
         var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
         var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600; // The energy used by one machine to mine that block
@@ -223,7 +189,7 @@ public class CalculationService : ICalculationService
         foreach (var energyPerPool in energyConsumptionPerPool) // Distribute pool energy for transcation per regions\countries
         {
             var geoDistributionOfHashRateForSinglePool = geoDistributionOfHashratePerPoolType
-                .First(p => p.PoolType == energyPerPool.Pool.PoolType).DistributionPerCOuntry;
+                .First(p => p.PoolType == energyPerPool.Pool.PoolType).DistributionPerCountry;
 
             foreach (var geoPoolDistribution in geoDistributionOfHashRateForSinglePool)
             {
