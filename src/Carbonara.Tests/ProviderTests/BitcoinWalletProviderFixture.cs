@@ -26,10 +26,10 @@ namespace Carbonara.Tests.ProviderTests
             ConfigurationMock.Setup(i => i["Api:BitcoinWalletAddressApi"]).Returns("https://blockchain.info/rawaddr");
         }
 
-        [Fact]
+        [Fact(Skip = "integration")]
         public async Task TestGetInformation()
         {
-            var result = await _bitcoinWalletProvider.GetInformation("1HMwiTpDwBXaP7wKrLKPzuJ9S3szrBNgAS");
+            var result = await _bitcoinWalletProvider.GetInformation("1aa5cmqmvQq8YQTEqcTmW7dfBNuFwgdCD");
             Assert.NotEmpty(result.txs);
             Assert.All(result.txs, item => item.hash.Should().NotBeNullOrEmpty());
         }
