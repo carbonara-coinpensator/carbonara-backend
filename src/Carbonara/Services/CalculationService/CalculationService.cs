@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Carbonara.Models.PoolHashRateDistribution;
 using Carbonara.Services;
 
 public class CalculationService : ICalculationService
@@ -22,7 +24,13 @@ public class CalculationService : ICalculationService
         var avgMachineHashRateInTHs = 14; // Average hashrate of a machine TH/s
         var avgMachineEnergyConsumptionInKWH = 1.372m; // Average machine energy consumption KW/h
 
-        // var hashRateDistributionPerPool // A list of pools with geo category and their participation in the hash rate 
+        var hashRateDistributionPerPool = new List<Pool>() {
+            new Pool { Name = "BTC.COM", Percent = 18.98m, PoolType = "BTC"  },
+            new Pool { Name = "F2Pool", Percent = 14.6m, PoolType = "BTC"  },
+            new Pool { Name = "Poolin", Percent = 10.95m, PoolType = "BTC"  },
+            new Pool { Name = "ViaBTC", Percent = 10.95m, PoolType = "BTC"  }
+        }; // A list of pools with geo category and their participation in the hash rate 
+        
         // var geoDistributionOfHashratePerPoolCategory // A list of geo categories with their participation in the hashrate per region
         // var c02EmissionsPerRegion // A list of countries with their latest co2 emission per kwh
 
@@ -30,6 +38,15 @@ public class CalculationService : ICalculationService
         var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600; // The energy used by one machine to mine that block
 
         var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / noOftransactionsInTheBlock;
+
+        var energyConsumptionPerPoolPerTransactionInKwh = new Dictionary<string, decimal>();
+        
+        foreach(var pool in hashRateDistributionPerPool) {
+            var poolEnergyConsumption = fullEnergyConsumptionPerTransactionInKWH * pool.Percent / 100;
+            energyConsumptionPerPoolPerTransactionInKwh.Add(pool.Name, poolEnergyConsumption);
+        }
+
+        
 
         var result = await Task.FromResult(201.2m);
         return result;

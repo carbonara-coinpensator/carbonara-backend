@@ -11,6 +11,5 @@ namespace Carbonara.Models
         public int time { get; set; }
         public string previousblockhash { get; set; }
         public bool isMainChain { get; set; }
-        public PoolInfo poolInfo { get; set; }
     }
 }
