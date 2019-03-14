@@ -7,8 +7,8 @@ using Newtonsoft.Json;
 
 namespace Carbonara.Providers
 {
-    public interface IBitcoinWalletProvider : IWalletProvider
+    public interface IWalletProvider
     {
-        Task<BitcoinWalletInformation> GetInformation(string address);
+        Task<List<string>> GetAllTransactionHashes(string address);
     }
 }

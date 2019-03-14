@@ -17,7 +17,7 @@ namespace Carbonara.Tests.ProviderTests
     public class BitcoinWalletProviderFixture
     {
         private readonly IBitcoinWalletProvider _bitcoinWalletProvider;
-        private Mock<IConfiguration> ConfigurationMock = new Mock<IConfiguration>();        
+        private Mock<IConfiguration> ConfigurationMock = new Mock<IConfiguration>();
 
         public BitcoinWalletProviderFixture()
         {
@@ -33,8 +33,8 @@ namespace Carbonara.Tests.ProviderTests
             Assert.NotEmpty(result.txs);
             Assert.All(result.txs, item => item.hash.Should().NotBeNullOrEmpty());
         }
-        
-        [Fact]
+
+        [Fact(Skip = "integration")]
         public async Task TestGetTransactions()
         {
             var txs = await _bitcoinWalletProvider.GetAllTransactionHashes("1HMwiTpDwBXaP7wKrLKPzuJ9S3szrBNgAS");
