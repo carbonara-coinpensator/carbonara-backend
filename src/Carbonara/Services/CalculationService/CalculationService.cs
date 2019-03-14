@@ -42,11 +42,11 @@ public class CalculationService : ICalculationService
         var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
         var noOftransactionsInTheBlock = blockParameters.NumberOfTransactionsInBlock; // 2000;
         var blockMiningTimeInSeconds = blockParameters.BlockTimeInSeconds; // 600;
-        var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds); // 43141132;
+        var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // 43141132;
         
         var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013); // Assumption is antminer s9 for now
-        var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000; // 14; // Average hashrate of a machine TH/s
-        var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000; // 1.372m; // Average machine energy consumption KW/h
+        var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000000000m; // 14; // Average hashrate of a machine TH/s
+        var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000m; // 1.372m; // Average machine energy consumption KW/h
 
         var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
         var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
@@ -55,7 +55,7 @@ public class CalculationService : ICalculationService
         var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
 
         var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
-        var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600; // The energy used by one machine to mine that block
+        var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600m; // The energy used by one machine to mine that block
 
         var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / noOftransactionsInTheBlock;
 
