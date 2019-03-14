@@ -60,6 +60,9 @@ namespace Carbonara
             services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();
             services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();     
             services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();     
+
+            services.AddCors(options => options.AddPolicy("AllowAll", builder =>
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
