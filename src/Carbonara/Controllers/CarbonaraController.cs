@@ -79,20 +79,5 @@ namespace Carbonara.Controllers
             var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
             return Ok(result);
         }
-
-        /// <summary>
-        /// Get the CO2 emission for a given transaction hash
-        /// </summary>
-        /// <param name="txHash">transaction hash</param>
-        /// <param name="minningGearYear">(Optional) Year for which the minning gear hashrate\energy consumtion approximation should be taken into account </param>
-        /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation</param>
-        /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account</param>
-        /// <response code="200">Returns an approximation of the CO2 emmission in KG for the given transaction hash </response>
-        [HttpGet("GetTest")]
-        public async Task<IActionResult> GetTest()
-        {
-            var result = await _miningHardwareService.GetAll();
-            return Ok(result);
-        }
     }
 }
