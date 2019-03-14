@@ -4,5 +4,6 @@ namespace Carbonara.Models.Formula
     {
         public int BlockTimeInSeconds { get; set; }
         public int NumberOfTransactionsInBlock { get; set; }
+        public int TimeOfBlockMining { get; set; }
     }
 }
