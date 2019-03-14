@@ -6,6 +6,8 @@ namespace Carbonara.Services
 {
     public interface IMiningHardwareService
     {
-        Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm alogrithm);
+        Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm algorithm);
+        Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year);
+        Task<List<MiningDevice>> GetAll();
     }
 }

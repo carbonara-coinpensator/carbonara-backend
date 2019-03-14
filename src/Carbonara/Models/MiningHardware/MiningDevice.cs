@@ -6,5 +6,6 @@ namespace Carbonara.Models.MiningHardware
         public long HashRate { get; set; }
         public int PowerConsumption { get; set; }
         public MiningAlgorithm Algorithm { get; set; }
+        public int ProductionYear { get; set; }
     }
 }

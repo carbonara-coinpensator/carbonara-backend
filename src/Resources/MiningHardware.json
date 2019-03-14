@@ -4,12 +4,27 @@
     "HashRate": 14000000000000,
     "PowerConsumption": 1375,
     "Algorithm": 0,
-    "ProductionDate": ""
+    "ProductionYear": 2013
   },
   {
     "Name": "Ebit E10",
     "HashRate": 18000000000000,
     "PowerConsumption": 1620,
-    "Algorithm": 0
-  }
+    "Algorithm": 0,
+    "ProductionYear": 2018
+  },
+  {
+    "Name": "WhatsMiner M10",
+    "HashRate": 33000000000000,
+    "PowerConsumption": 2150,
+    "Algorithm": 0,
+    "ProductionYear": 2019
+  },
+  {
+    "Name": "WhatsMiner M3",
+    "HashRate": 11500000000000,
+    "PowerConsumption": 1785,
+    "Algorithm": 0,
+    "ProductionYear": 2016
+  }  
 ]
