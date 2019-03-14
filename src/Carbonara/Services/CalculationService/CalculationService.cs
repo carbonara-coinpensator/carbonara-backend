@@ -5,16 +5,26 @@ using Carbonara.Models.Country;
 using Carbonara.Models.PoolHashRateDistribution;
 using Carbonara.Models.PoolTypeHashRateDistribution;
 using Carbonara.Services;
+using Carbonara.Services.CountryCo2EmissionService;
+using Carbonara.Services.PoolHashRateService;
 
 public class CalculationService : ICalculationService
 {
     private readonly IBlockParametersService _blockParametersService;
     private readonly INetworkHashRateService _networkHashRateService;
+    private readonly IPoolHashRateService _poolHashRateService;
+    private readonly ICountryCo2EmissionService _countryCo2EmissionService;
 
-    public CalculationService(IBlockParametersService blockParametersService, INetworkHashRateService networkHashRateService)
+    public CalculationService(
+        IBlockParametersService blockParametersService,
+        INetworkHashRateService networkHashRateService,
+        IPoolHashRateService poolHashRateService,
+        ICountryCo2EmissionService countryCo2EmissionService)
     {
         _blockParametersService = blockParametersService;
         _networkHashRateService = networkHashRateService;
+        _poolHashRateService = poolHashRateService;
+        _countryCo2EmissionService = countryCo2EmissionService;
     }
 
     public async Task<decimal> Calculate(string txHash, int? minningGearYear, string hashingAlg, string cO2EmissionCountry)
@@ -33,14 +43,7 @@ public class CalculationService : ICalculationService
             new Pool { Name = "ViaBTC", Percent = 10.95m, PoolType = "BTC"  }
         }; // A list of pools with geo category (pool type) and their participation in the hash rate 
 
-        var countriesWithCo2Emission = new List<Country>() {
-            new Country { CountryCode = "CA", Co2Emission = 158.42m },
-            new Country { CountryCode = "CN", Co2Emission = 711.3686m },
-            new Country { CountryCode = "EU", Co2Emission = 336.8498m },
-            new Country { CountryCode = "JP", Co2Emission = 571.5443m },
-            new Country { CountryCode = "SG", Co2Emission = 431.3m },
-            new Country { CountryCode = "US", Co2Emission = 489.4282m }
-        }; // A list of countries with their latest co2 emission per kwh
+        var countriesWithCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
 
         var geoDistributionOfHashratePerPoolCategory = new List<PoolTypeHashRateDistribution>() {
             new PoolTypeHashRateDistribution()

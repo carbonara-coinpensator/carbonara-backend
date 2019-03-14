@@ -18,7 +18,10 @@
     </Content>  
     <Content Include="../Resources/PoolHashRateDistribution.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>  
+    </Content>
+    <Content Include="../Resources/CountryCo2EmissionPerKwh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content> 
   </ItemGroup>
 
   <PropertyGroup>
