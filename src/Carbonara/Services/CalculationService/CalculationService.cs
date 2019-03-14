@@ -49,7 +49,7 @@ public class CalculationService : ICalculationService
             new PoolTypeHashRateDistribution()
                 {
                     PoolType = "BTC",
-                    DistributionPerCOuntry = new List<HashRateDistributionPerCountry>()
+                    DistributionPerCountry = new List<HashRateDistributionPerCountry>()
                         {
                             new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
                             new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 60.8m },
@@ -58,7 +58,60 @@ public class CalculationService : ICalculationService
                             new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
                             new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 14m }
                         }
-                }
+                },
+            new PoolTypeHashRateDistribution()
+                {
+                    PoolType = "SLUSH",
+                    DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                        {
+                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 14.65293787m },
+                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 5.387157117m },
+                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 45.65834168m },
+                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 1.368640354m },
+                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0.942486583m },
+                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 31.9904364m }
+                        }
+                },
+                new PoolTypeHashRateDistribution()
+                {
+                    PoolType = "US",
+                    DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                        {
+                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 100m }
+                        }
+                },
+                new PoolTypeHashRateDistribution()
+                {
+                    PoolType = "CN",
+                    DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                        {
+                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 100m },
+                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 0m }
+                        }
+                },
+                new PoolTypeHashRateDistribution()
+                {
+                    PoolType = "OTH",
+                    DistributionPerCountry = new List<HashRateDistributionPerCountry>()
+                        {
+                            new HashRateDistributionPerCountry { CountryCode = "CA", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "CN", Percentage = 33.33m },
+                            new HashRateDistributionPerCountry { CountryCode = "EU", Percentage = 33.33m },
+                            new HashRateDistributionPerCountry { CountryCode = "JP", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "SG", Percentage = 0m },
+                            new HashRateDistributionPerCountry { CountryCode = "US", Percentage = 33.33m }
+                        }
+                },
+
              }; // A list of geo categories (pool types) with their participation in the hashrate per region
 
         var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
