@@ -7,7 +7,7 @@ using Carbonara.Providers;
 using Carbonara.Services;
 using Xunit;
 
-namespace Carbonara.Tests
+namespace Carbonara.Tests.ProviderTests
 {
     public class JsonHardwareProviderFixture
     {
