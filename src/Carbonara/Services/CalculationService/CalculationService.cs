@@ -7,16 +7,26 @@ using Carbonara.Models.Calculation;
 using Carbonara.Models.PoolHashRateDistribution;
 using Carbonara.Models.PoolTypeHashRateDistribution;
 using Carbonara.Services;
+using Carbonara.Services.CountryCo2EmissionService;
+using Carbonara.Services.PoolHashRateService;
 
 public class CalculationService : ICalculationService
 {
     private readonly IBlockParametersService _blockParametersService;
     private readonly INetworkHashRateService _networkHashRateService;
+    private readonly IPoolHashRateService _poolHashRateService;
+    private readonly ICountryCo2EmissionService _countryCo2EmissionService;
 
-    public CalculationService(IBlockParametersService blockParametersService, INetworkHashRateService networkHashRateService)
+    public CalculationService(
+        IBlockParametersService blockParametersService,
+        INetworkHashRateService networkHashRateService,
+        IPoolHashRateService poolHashRateService,
+        ICountryCo2EmissionService countryCo2EmissionService)
     {
         _blockParametersService = blockParametersService;
         _networkHashRateService = networkHashRateService;
+        _poolHashRateService = poolHashRateService;
+        _countryCo2EmissionService = countryCo2EmissionService;
     }
 
     public async Task<decimal> Calculate(string txHash, int? minningGearYear, string hashingAlg, string cO2EmissionCountry)
@@ -48,14 +58,7 @@ public class CalculationService : ICalculationService
             new Pool { Name = "tigerpool.net", Percent = 0.73m, PoolType = "CN"  },
         }; // A list of pools with geo category (pool type) and their participation in the hash rate 
 
-        var countriesWithAvgCo2Emission = new List<Country>() {
-            new Country { CountryCode = "CA", Co2Emission = 158.42m },
-            new Country { CountryCode = "CN", Co2Emission = 711.3686m },
-            new Country { CountryCode = "EU", Co2Emission = 336.8498m },
-            new Country { CountryCode = "JP", Co2Emission = 571.5443m },
-            new Country { CountryCode = "SG", Co2Emission = 431.3m },
-            new Country { CountryCode = "US", Co2Emission = 489.4282m }
-        }; // A list of countries with their latest co2 emission per kwh
+        var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
 
         var geoDistributionOfHashratePerPoolType = new List<PoolTypeHashRateDistribution>() {
             new PoolTypeHashRateDistribution()
@@ -133,7 +136,9 @@ public class CalculationService : ICalculationService
         return result;
     }
 
-    private List<EnergyConsumptionPerPool> DistributeEnergyPerPool(decimal fullEnergyForTransaction, List<Pool> hashRateDistributionPerPool) 
+    private List<EnergyConsumptionPerPool> DistributeEnergyPerPool(
+        decimal fullEnergyForTransaction, 
+        ICollection<Pool> hashRateDistributionPerPool) 
     {
         var energyConsumptionPerPoolPerTransactionInKwh = new List<EnergyConsumptionPerPool>();
 
@@ -153,9 +158,9 @@ public class CalculationService : ICalculationService
         return energyConsumptionPerPoolPerTransactionInKwh;
     }
 
-    private List<EnergyConsumptionPerCountry> DistributeEnergyPerCountry(
-        List<EnergyConsumptionPerPool> energyConsumptionPerPool,
-        List<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType) 
+    private ICollection<EnergyConsumptionPerCountry> DistributeEnergyPerCountry(
+        ICollection<EnergyConsumptionPerPool> energyConsumptionPerPool,
+        ICollection<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType) 
     {
         var energyConsumptionPerCountryPerTransactionInKwh = new List<EnergyConsumptionPerCountry>();
 
@@ -189,8 +194,8 @@ public class CalculationService : ICalculationService
     }
 
     private List<Co2EmissionPerCountry> CalculateEmissionPerCountry(
-        List<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
-        List<Country> countriesWithAvgCo2Emission)
+        ICollection<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
+        ICollection<Country> countriesWithAvgCo2Emission)
     {
         var co2PerCountry = new List<Co2EmissionPerCountry>();
         

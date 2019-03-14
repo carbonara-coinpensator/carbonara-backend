@@ -26,7 +26,8 @@ namespace Carbonara.Services
             return new BlockParameters
             {
                 NumberOfTransactionsInBlock = blockDetails.tx.Count,
-                BlockTimeInSeconds = blockTimeInSeconds
+                BlockTimeInSeconds = blockTimeInSeconds,
+                TimeOfBlockMining = blockDetails.time
             };
         }
     }
