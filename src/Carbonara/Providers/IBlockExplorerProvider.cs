@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Carbonara.Models;
+using Carbonara.Models.BlockDetails;
+using Carbonara.Models.TransactionDetails;
 
 namespace Carbonara.Providers
 {

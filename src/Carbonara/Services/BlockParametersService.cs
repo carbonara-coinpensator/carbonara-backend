@@ -17,17 +17,17 @@ namespace Carbonara.Services
         {
             var transactionDetails = await _blockExplorerProvider.GetTransactionDetailsAsync(txHash);
 
-            var blockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(transactionDetails.blockhash);
+            var blockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(transactionDetails.data.blockhash);
 
-            var previousBlockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockDetails.previousblockhash);
+            var previousBlockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockDetails.data.previous_blockhash);
 
-            var blockTimeInSeconds = blockDetails.time - previousBlockDetails.time;
+            var blockTimeInSeconds = blockDetails.data.time - previousBlockDetails.data.time;
 
             return new BlockParameters
             {
-                NumberOfTransactionsInBlock = blockDetails.tx.Count,
+                NumberOfTransactionsInBlock = blockDetails.data.txs.Count,
                 BlockTimeInSeconds = blockTimeInSeconds,
-                TimeOfBlockMining = blockDetails.time
+                TimeOfBlockMining = blockDetails.data.time
             };
         }
     }

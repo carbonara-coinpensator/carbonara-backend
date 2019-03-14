@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Carbonara.Models;
+using Carbonara.Models.BlockDetails;
+using Carbonara.Models.TransactionDetails;
 using Carbonara.Services;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -19,8 +20,10 @@ namespace Carbonara.Providers
 
         public async Task<TransactionDetails> GetTransactionDetailsAsync(string txHash)
         {
-            var url = $"{_configuration["Api:BlockExplorer"]}/tx/{txHash}";
+            // var url = $"{_configuration["Api:BlockExplorer"]}/tx/{txHash}";
+            var url = $"https://chain.so/api/v2/get_tx/btc/{txHash}";
             var responseContent = await GetResponseContent(url);
+            
 
             var transactionDetails = JsonConvert.DeserializeObject<TransactionDetails>(responseContent);
 
@@ -29,7 +32,8 @@ namespace Carbonara.Providers
 
         public async Task<BlockDetails> GetBlockDetailsAsync(string blockHash)
         {
-            var url = $"{_configuration["Api:BlockExplorer"]}/block/{blockHash}";
+            // var url = $"{_configuration["Api:BlockExplorer"]}/block/{blockHash}";
+            var url = $"https://chain.so/api/v2/get_block/btc/{blockHash}";
             var responseContent = await GetResponseContent(url);
 
             var blockDetails = JsonConvert.DeserializeObject<BlockDetails>(responseContent);
