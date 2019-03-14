@@ -11,6 +11,7 @@ using Carbonara.Services.CountryCo2EmissionService;
 using Carbonara.Services.PoolHashRateService;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Services.HashRatePerPoolService;
+using Carbonara.Models.Formula;
 
 public class CalculationService : ICalculationService
 {
@@ -39,43 +40,50 @@ public class CalculationService : ICalculationService
 
     public async Task<decimal> Calculate(string txHash, int? minningGearYear, string hashingAlg, string cO2EmissionCountry)
     {
-        var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
-        var noOftransactionsInTheBlock = blockParameters.NumberOfTransactionsInBlock; // 2000;
-        var blockMiningTimeInSeconds = blockParameters.BlockTimeInSeconds; // 600;
-        var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // 43141132;
+        var transactionBlockParameters = await _blockParametersService.GetBlockParameters(txHash);
+
+        var fullEnergyConsumptionPerTransactionInKWH = 
+            await this.CalculateTheFullEnergyConsumptionPerTransaction(transactionBlockParameters);
         
-        var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013); // Assumption is antminer s9 for now
-        var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000000000m; // 14; // Average hashrate of a machine TH/s
-        var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000m; // 1.372m; // Average machine energy consumption KW/h
-
-        var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
-        var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
-
-        // A list of geo categories (pool types) with their participation in the hashrate per region
-        var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
-
-        var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
-        var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockMiningTimeInSeconds / 3600m; // The energy used by one machine to mine that block
-
-        var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / noOftransactionsInTheBlock;
+        var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(transactionBlockParameters.TimeOfBlockMining);
 
         var energyConsumptionPerPool = 
-            this.DistributeEnergyPerPool(fullEnergyConsumptionPerTransactionInKWH, hashRateDistributionPerPool);
+            this.DistributeEnergyPerPoolParticipationInTheHashRate(fullEnergyConsumptionPerTransactionInKWH, hashRateDistributionPerPool);
+
+        var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
 
         var energyConsumptionPerCountry = 
-            this.DistributeEnergyPerCountry(energyConsumptionPerPool, geoDistributionOfHashratePerPoolType);
+            this.DistributeEnergyUsedByPoolsPerCountry(energyConsumptionPerPool, geoDistributionOfHashratePerPoolType);
+
+        var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
         
         var co2EmissionPerCountry = 
-            this.CalculateEmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission);
+            this.TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission);
 
-        var worldWideEmission = 
-            co2EmissionPerCountry.Sum(c => c.Co2Emission);
+        var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
 
         var result = await Task.FromResult(worldWideEmission);
         return result;
     }
 
-    private List<EnergyConsumptionPerPool> DistributeEnergyPerPool(
+    private async Task<decimal> CalculateTheFullEnergyConsumptionPerTransaction(
+        BlockParameters blockParameters) 
+    {
+        var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // Provided in TH/s;
+
+        var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013); // Assumption is antminer s9 for now
+        var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000000000m; // Average hashrate of a machine converted to TH/s from H/s
+        var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000m; // Average machine energy consumption converted to KW/h from W/h
+
+        var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
+        var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockParameters.BlockTimeInSeconds / 3600m; // The energy used by one machine to mine that block
+
+        var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH /  blockParameters.NumberOfTransactionsInBlock;
+        
+        return fullEnergyConsumptionPerTransactionInKWH;
+    }
+
+    private List<EnergyConsumptionPerPool> DistributeEnergyPerPoolParticipationInTheHashRate(
         decimal fullEnergyForTransaction, 
         ICollection<Pool> hashRateDistributionPerPool) 
     {
@@ -97,13 +105,13 @@ public class CalculationService : ICalculationService
         return energyConsumptionPerPoolPerTransactionInKwh;
     }
 
-    private ICollection<EnergyConsumptionPerCountry> DistributeEnergyPerCountry(
+    private ICollection<EnergyConsumptionPerCountry> DistributeEnergyUsedByPoolsPerCountry(
         ICollection<EnergyConsumptionPerPool> energyConsumptionPerPool,
         ICollection<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType) 
     {
         var energyConsumptionPerCountryPerTransactionInKwh = new List<EnergyConsumptionPerCountry>();
 
-        foreach (var energyPerPool in energyConsumptionPerPool) // Distribute pool energy for transcation per regions\countries
+        foreach (var energyPerPool in energyConsumptionPerPool)
         {
             var geoDistributionOfHashRateForSinglePool = geoDistributionOfHashratePerPoolType
                 .First(p => p.PoolType == energyPerPool.Pool.PoolType).DistributionPerCountry;
@@ -132,13 +140,13 @@ public class CalculationService : ICalculationService
         return energyConsumptionPerCountryPerTransactionInKwh;
     }
 
-    private List<Co2EmissionPerCountry> CalculateEmissionPerCountry(
+    private List<Co2EmissionPerCountry> TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(
         ICollection<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
         ICollection<Country> countriesWithAvgCo2Emission)
     {
         var co2PerCountry = new List<Co2EmissionPerCountry>();
         
-        foreach(var consumptionPerCountry in energyConsumptionPerCountry) // Translate energy consumption per country to co2 emissions per country
+        foreach(var consumptionPerCountry in energyConsumptionPerCountry)
         {
             var avgEmissionPerEnergyInGrams = countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2Emission;
 
