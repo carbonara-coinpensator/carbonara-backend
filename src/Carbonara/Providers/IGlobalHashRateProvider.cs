@@ -4,6 +4,6 @@ namespace Carbonara.Providers
 {
     public interface IGlobalHashRateProvider
     {
-        Task<double> GetDailyHashRateAsync(int blockTime);
+        Task<decimal> GetDailyHashRateAsync(int blockTime);
     }
 }

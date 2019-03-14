@@ -13,7 +13,7 @@ namespace Carbonara.Services
             _globalHashRateProvider = globalHashRateProvider;
         }
 
-        public async Task<double> GetDailyHashRateInPastAsync(int blockTime)
+        public async Task<decimal> GetDailyHashRateInPastAsync(int blockTime)
         {        
             var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockTime);
             var dateDiff = DateTime.Now - dateOfTransaction;

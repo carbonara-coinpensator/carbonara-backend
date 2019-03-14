@@ -9,6 +9,7 @@ using Carbonara.Models.PoolTypeHashRateDistribution;
 using Carbonara.Services;
 using Carbonara.Services.CountryCo2EmissionService;
 using Carbonara.Services.PoolHashRateService;
+using Carbonara.Models.MiningHardware;
 
 public class CalculationService : ICalculationService
 {
@@ -16,47 +17,54 @@ public class CalculationService : ICalculationService
     private readonly INetworkHashRateService _networkHashRateService;
     private readonly IPoolHashRateService _poolHashRateService;
     private readonly ICountryCo2EmissionService _countryCo2EmissionService;
+    private readonly IMiningHardwareService _miningHardwareService;
 
     public CalculationService(
         IBlockParametersService blockParametersService,
         INetworkHashRateService networkHashRateService,
         IPoolHashRateService poolHashRateService,
-        ICountryCo2EmissionService countryCo2EmissionService)
+        ICountryCo2EmissionService countryCo2EmissionService,
+        IMiningHardwareService miningHardwareService)
     {
         _blockParametersService = blockParametersService;
         _networkHashRateService = networkHashRateService;
         _poolHashRateService = poolHashRateService;
         _countryCo2EmissionService = countryCo2EmissionService;
+        _miningHardwareService = miningHardwareService;
     }
 
     public async Task<decimal> Calculate(string txHash, int? minningGearYear, string hashingAlg, string cO2EmissionCountry)
     {
-        var transactionDate = DateTime.Now; // Transaction date based on the hash // var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
-        var noOftransactionsInTheBlock = 2000; // No of transcations in the same block // NumberOfTransactionsInBlock = blockParameters.NumberOfTransactionsInBlock
-        var blockMiningTimeInSeconds = 600; // Time it took to mine the block in seconds //     BlockTimeInSeconds = blockParameters.BlockTimeInSeconds,
-        var networkHashRateInTHs = 43141132; // Hashrate of the network for a fetched tranasaction date in TH/s // var hashRate = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds);
-        var avgMachineHashRateInTHs = 14; // Average hashrate of a machine TH/s
-        var avgMachineEnergyConsumptionInKWH = 1.372m; // Average machine energy consumption KW/h
+        var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
+        var noOftransactionsInTheBlock = blockParameters.NumberOfTransactionsInBlock; // 2000;
+        var blockMiningTimeInSeconds = blockParameters.BlockTimeInSeconds; // 600;
+        var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds); // 43141132;
+        
+        var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013); // Assumption is antminer s9 for now
+        var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000; // 14; // Average hashrate of a machine TH/s
+        var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000; // 1.372m; // Average machine energy consumption KW/h
 
-        var hashRateDistributionPerPool = new List<Pool>() {
-            new Pool { Name = "BTC.COM", Percent = 18.98m, PoolType = "BTC"  },
-            new Pool { Name = "F2Pool", Percent = 14.6m, PoolType = "BTC"  },
-            new Pool { Name = "Poolin", Percent = 10.95m, PoolType = "BTC"  },
-            new Pool { Name = "ViaBTC", Percent = 10.95m, PoolType = "BTC"  },
-            new Pool { Name = "SlushPool", Percent = 7.3m, PoolType = "SLUSH"  },
-            new Pool { Name = "BTC.TOP", Percent = 5.84m, PoolType = "BTC"  },
-            new Pool { Name = "unknown", Percent = 5.84m, PoolType = "SLUSH"  },
-            new Pool { Name = "AntPool", Percent = 5.11m, PoolType = "BTC"  },
-            new Pool { Name = "BitClub", Percent = 4.38m, PoolType = "SLUSH"  },
-            new Pool { Name = "Huobi.pool", Percent = 4.38m, PoolType = "SLUSH"  },
-            new Pool { Name = "WAYI.CN", Percent = 2.92m, PoolType = "CN"  },
-            new Pool { Name = "Bitcoin.com", Percent = 2.19m, PoolType = "US"  },
-            new Pool { Name = "DPOOL", Percent = 2.19m, PoolType = "CN"  },
-            new Pool { Name = "BitFury", Percent = 1.46m, PoolType = "SLUSH"  },
-            new Pool { Name = "Bixin", Percent = 1.46m, PoolType = "CN"  },
-            new Pool { Name = "sigmapool.com", Percent = 0.73m, PoolType = "SLUSH"  },
-            new Pool { Name = "tigerpool.net", Percent = 0.73m, PoolType = "CN"  },
-        }; // A list of pools with geo category (pool type) and their participation in the hash rate 
+        var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
+
+        // var hashRateDistributionPerPool = new List<Pool>() {
+        //     new Pool { Name = "BTC.COM", Percent = 18.98m, PoolType = "BTC"  },
+        //     new Pool { Name = "F2Pool", Percent = 14.6m, PoolType = "BTC"  },
+        //     new Pool { Name = "Poolin", Percent = 10.95m, PoolType = "BTC"  },
+        //     new Pool { Name = "ViaBTC", Percent = 10.95m, PoolType = "BTC"  },
+        //     new Pool { Name = "SlushPool", Percent = 7.3m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "BTC.TOP", Percent = 5.84m, PoolType = "BTC"  },
+        //     new Pool { Name = "unknown", Percent = 5.84m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "AntPool", Percent = 5.11m, PoolType = "BTC"  },
+        //     new Pool { Name = "BitClub", Percent = 4.38m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "Huobi.pool", Percent = 4.38m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "WAYI.CN", Percent = 2.92m, PoolType = "CN"  },
+        //     new Pool { Name = "Bitcoin.com", Percent = 2.19m, PoolType = "US"  },
+        //     new Pool { Name = "DPOOL", Percent = 2.19m, PoolType = "CN"  },
+        //     new Pool { Name = "BitFury", Percent = 1.46m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "Bixin", Percent = 1.46m, PoolType = "CN"  },
+        //     new Pool { Name = "sigmapool.com", Percent = 0.73m, PoolType = "SLUSH"  },
+        //     new Pool { Name = "tigerpool.net", Percent = 0.73m, PoolType = "CN"  },
+        // }; // A list of pools with geo category (pool type) and their participation in the hash rate 
 
         var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
 
