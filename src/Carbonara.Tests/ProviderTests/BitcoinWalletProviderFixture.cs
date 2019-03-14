@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Providers;
+using Carbonara.Providers.BitcoinWalletProvider;
 using Carbonara.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,7 @@ namespace Carbonara.Tests.ProviderTests
 
         public BitcoinWalletProviderFixture()
         {
-            _bitcoinWalletProvider = new BitcoinWalletProvider(ConfigurationMock.Object, new Services.HttpClientHandler());
+            _bitcoinWalletProvider = new BitcoinWalletProvider(ConfigurationMock.Object, new Services.HttpClientHandler.HttpClientHandler());
 
             ConfigurationMock.Setup(i => i["Api:BitcoinWalletAddressApi"]).Returns("https://blockchain.info/rawaddr");
         }

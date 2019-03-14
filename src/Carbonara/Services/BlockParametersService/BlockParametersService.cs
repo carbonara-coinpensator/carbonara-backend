@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Carbonara.Models.Formula;
 using Carbonara.Providers;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.BlockParametersService
 {
     public class BlockParametersService : IBlockParametersService
     {

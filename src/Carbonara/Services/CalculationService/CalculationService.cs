@@ -6,12 +6,14 @@ using Carbonara.Models.Country;
 using Carbonara.Models.Calculation;
 using Carbonara.Models.PoolHashRateDistribution;
 using Carbonara.Models.PoolTypeHashRateDistribution;
-using Carbonara.Services;
+using Carbonara.Services.BlockParametersService;
 using Carbonara.Services.CountryCo2EmissionService;
 using Carbonara.Services.PoolHashRateService;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Models.Formula;
+using Carbonara.Services.MiningHardwareService;
+using Carbonara.Services.NetworkHashRateService;
 
 public class CalculationService : ICalculationService
 {

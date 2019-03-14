@@ -5,7 +5,7 @@ using Carbonara.Services;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace Carbonara.Providers
+namespace Carbonara.Providers.WalletProvider
 {
     public interface IWalletProvider
     {

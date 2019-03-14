@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Carbonara.Models.Formula;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.BlockParametersService
 {
     public interface IBlockParametersService
     {

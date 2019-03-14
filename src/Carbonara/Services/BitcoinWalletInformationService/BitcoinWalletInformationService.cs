@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Models.Formula;
 using Carbonara.Providers;
+using Carbonara.Providers.BitcoinWalletProvider;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.BitcoinWalletInformationService
 {
     public class BitcoinWalletInformationService : IBitcoinWalletInformationService
     {

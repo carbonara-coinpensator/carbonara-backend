@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.NetworkHashRateService
 {
     public interface INetworkHashRateService
     {

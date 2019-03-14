@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Services;
+using Carbonara.Services.HttpClientHandler;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace Carbonara.Providers
+namespace Carbonara.Providers.BitcoinWalletProvider
 {
     public class BitcoinWalletProvider : IBitcoinWalletProvider
     {

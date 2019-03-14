@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Services;
+using Carbonara.Services.HttpClientHandler;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 

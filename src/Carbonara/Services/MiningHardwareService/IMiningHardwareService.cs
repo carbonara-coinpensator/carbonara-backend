@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Carbonara.Models.MiningHardware;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.MiningHardwareService
 {
     public interface IMiningHardwareService
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.BitcoinWalletInformationService
 {
     public interface IWalletInformationService
     {
