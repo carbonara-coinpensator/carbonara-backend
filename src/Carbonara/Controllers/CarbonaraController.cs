@@ -33,12 +33,30 @@ namespace Carbonara.Controllers
         /// <summary>
         /// Get energy standards selection for approximation of CO2 emmissions per KWH
         /// </summary>
-        /// <response code="200">List of string representing countries with the approximate CO2 consumption</response>
+        /// <response code="200">List of strings representing countries with the approximate CO2 consumption</response>
         [HttpGet("CountriesCO2EmissionSelection")]
         public async Task<IActionResult> GetCountriesCO2EmissionSelection()
         {
             var countries = await Task.FromResult(new List<string> { "CN", "USA", "EU" });
             return Ok(countries);
+        }
+
+        /// <summary>
+        /// Get the list of transaction hashes for a given bitcoin address
+        /// </summary>
+        /// <param name="bitcoinAddress">Bitcoin address for which to provide the hashes (Address can be base58 or hash160)</param>
+        /// <response code="200">List of strings representing tx hashes for a given address</response>
+        [HttpGet("TransactionList")]
+        public async Task<IActionResult> GetFormulaParametersAsync(
+            [FromQuery(Name = "BitcoinAddress")]string bitcoinAddress)
+        {
+            
+            var txHashes = await Task.FromResult(
+                new List<string> { 
+                    "d99439e228bc0cb2199eaaaa2303ef4c7fd85fbd529070ba175f86252c8577ce", 
+                    "c9d750df6d9e2e86d9b2ceedba942d5711a6f31caf5743f373f1d52d00e2bbf5", 
+                    "b587f4573b70a43d1091f32345e722d10144b33c9f2dcf7171d952a414021a5d" });
+            return Ok(txHashes);
         }
 
         /// <summary>
@@ -48,25 +66,25 @@ namespace Carbonara.Controllers
         /// <param name="minningGearYear">(Optional) Year for which the minning gear hashrate\energy consumtion approximation should be taken into account </param>
         /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation</param>
         /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account</param>
-        /// <response code="200">Formula parameters</response>
-        [HttpGet("Calculate")]
-        public async Task<IActionResult> GetFormulaParametersAsync(
+        /// <response code="200">Returns an approximation of the CO2 emmission in KG for the given transaction hash </response>
+        [HttpGet("Calculation")]
+        public async Task<IActionResult> GetCalculationAsync(
             [FromQuery(Name = "TxHash")]string txHash,
             [FromQuery(Name = "MinningGearYear")]int? minningGearYear = null,
             [FromQuery(Name="HashingAlgorithm")]string hashingAlgorithm = "0",
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
-            var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
-            var hashRate = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds);
+            // var blockParameters = await _blockParametersService.GetBlockParameters(txHash);
+            // var hashRate = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.BlockTimeInSeconds);
 
-            var formulaParameters = new FormulaParameters
-            {
-                BlockTimeInSeconds = blockParameters.BlockTimeInSeconds,
-                HashRateOfDayTxWasMined = hashRate,
-                NumberOfTransactionsInBlock = blockParameters.NumberOfTransactionsInBlock
-            };
-
-            return Ok(formulaParameters);
+            // var formulaParameters = new FormulaParameters
+            // {
+            //     BlockTimeInSeconds = blockParameters.BlockTimeInSeconds,
+            //     HashRateOfDayTxWasMined = hashRate,
+            //     NumberOfTransactionsInBlock = blockParameters.NumberOfTransactionsInBlock
+            // };
+            var result = await Task.FromResult(201.2);
+            return Ok(result);
         }
     }
 }
