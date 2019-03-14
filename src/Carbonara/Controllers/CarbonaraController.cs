@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Services;
+using Carbonara.Services.MiningHardwareService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Carbonara.Controllers

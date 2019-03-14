@@ -14,7 +14,7 @@ namespace Carbonara.Services.HashRatePerPoolService
             _hashRatePerPoolProvider = hashRatePerPoolProvider;
         }
 
-        public async Task<ICollection<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync()
+        public async Task<List<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync()
         {
             return await _hashRatePerPoolProvider.GetHashRatePerPoolAsync();
         }

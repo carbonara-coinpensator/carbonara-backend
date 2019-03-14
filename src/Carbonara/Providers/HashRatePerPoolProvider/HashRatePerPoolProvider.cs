@@ -16,12 +16,12 @@ namespace Carbonara.Providers.HashRatePerPoolProvider
             _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
 
-        public async Task<ICollection<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync()
+        public async Task<List<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync()
         {
             return await ReadHashRatePerPoolFromFile($"{_path}/HashRateDistributionPerPool.json");
         }
 
-        private async Task<ICollection<PoolTypeHashRateDistribution>> ReadHashRatePerPoolFromFile(string filename)
+        private async Task<List<PoolTypeHashRateDistribution>> ReadHashRatePerPoolFromFile(string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
             {

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Carbonara.Providers;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.NetworkHashRateService
 {
     public class NetworkHashRateService : INetworkHashRateService
     {

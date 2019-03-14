@@ -6,7 +6,7 @@ using Carbonara.Models.MiningHardware;
 using Carbonara.Providers;
 using Newtonsoft.Json;
 
-namespace Carbonara.Services
+namespace Carbonara.Services.MiningHardwareService
 {
     public class MiningHardwareService : IMiningHardwareService
     {

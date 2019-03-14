@@ -6,6 +6,6 @@ namespace Carbonara.Providers.HashRatePerPoolProvider
 {
     public interface IHashRatePerPoolProvider
     {
-        Task<ICollection<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync();
+        Task<List<PoolTypeHashRateDistribution>> GetHashRatePerPoolAsync();
     }
 }

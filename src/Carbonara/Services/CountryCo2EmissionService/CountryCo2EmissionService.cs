@@ -14,7 +14,7 @@ namespace Carbonara.Services.CountryCo2EmissionService
             _countryCo2EmissionProvider = countryCo2EmissionProvider;
         }
 
-        public async Task<ICollection<Country>> GetCountriesCo2EmissionAsync()
+        public async Task<List<Country>> GetCountriesCo2EmissionAsync()
         {
             return await _countryCo2EmissionProvider.GetCountriesCo2EmissionAsync();
         }

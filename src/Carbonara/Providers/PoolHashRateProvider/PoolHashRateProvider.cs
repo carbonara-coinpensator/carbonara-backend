@@ -18,7 +18,7 @@ namespace Carbonara.Providers.PoolHashRateProvider
             _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
 
-        public async Task<ICollection<Pool>> GetDistributionBasedOnDateAsync(DateTime date)
+        public async Task<List<Pool>> GetDistributionBasedOnDateAsync(DateTime date)
         {
             var distribution = await ReadDistributionFromFile($"{_path}/PoolHashRateDistribution.json");
 
@@ -26,7 +26,7 @@ namespace Carbonara.Providers.PoolHashRateProvider
 
             var txDistribution = distribution.Distribution.First(d => d.Year == date.Year && d.YearPeriod == yearPeriod);
 
-            return txDistribution.PoolInformation;
+            return txDistribution.PoolInformation.ToList();
         }
 
         private async Task<PoolHashRateDistribution> ReadDistributionFromFile(string filename)

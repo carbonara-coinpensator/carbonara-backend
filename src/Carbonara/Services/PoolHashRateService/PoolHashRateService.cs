@@ -15,7 +15,7 @@ namespace Carbonara.Services.PoolHashRateService
             _poolHashRateProvider = poolHashRateProvider;
         }
 
-        public async Task<ICollection<Pool>> GetPoolHashRateDistributionForTxDateAsync(int timeOfBlockMining)
+        public async Task<List<Pool>> GetPoolHashRateDistributionForTxDateAsync(int timeOfBlockMining)
         {
             var txDate = DateTime.UnixEpoch.AddSeconds(timeOfBlockMining);
 
