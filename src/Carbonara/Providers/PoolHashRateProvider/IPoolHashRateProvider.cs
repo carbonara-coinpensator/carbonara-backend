@@ -7,6 +7,6 @@ namespace Carbonara.Providers.PoolHashRateProvider
 {
     public interface IPoolHashRateProvider
     {
-        Task<ICollection<Pool>> GetDistributionBasedOnDateAsync(DateTime date);
+        Task<List<Pool>> GetDistributionBasedOnDateAsync(DateTime date);
     }
 }

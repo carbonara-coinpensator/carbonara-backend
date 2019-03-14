@@ -16,12 +16,12 @@ namespace Carbonara.Providers.CountryCo2EmissionProvider
             _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
 
-        public async Task<ICollection<Country>> GetCountriesCo2EmissionAsync()
+        public async Task<List<Country>> GetCountriesCo2EmissionAsync()
         {
             return await ReadCountriesCo2EmissionFromFile($"{_path}/CountryCo2EmissionPerKwh.json");
         }
 
-        private async Task<ICollection<Country>> ReadCountriesCo2EmissionFromFile(string filename)
+        private async Task<List<Country>> ReadCountriesCo2EmissionFromFile(string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
             {

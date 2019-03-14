@@ -6,6 +6,6 @@ namespace Carbonara.Providers.CountryCo2EmissionProvider
 {
     public interface ICountryCo2EmissionProvider
     {
-        Task<ICollection<Country>> GetCountriesCo2EmissionAsync();
+        Task<List<Country>> GetCountriesCo2EmissionAsync();
     }
 }

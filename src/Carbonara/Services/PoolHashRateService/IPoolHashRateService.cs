@@ -6,6 +6,6 @@ namespace Carbonara.Services.PoolHashRateService
 {
     public interface IPoolHashRateService
     {
-        Task<ICollection<Pool>> GetPoolHashRateDistributionForTxDateAsync(int timeOfBlockMining);
+        Task<List<Pool>> GetPoolHashRateDistributionForTxDateAsync(int timeOfBlockMining);
     }
 }

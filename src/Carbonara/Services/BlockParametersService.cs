@@ -21,7 +21,7 @@ namespace Carbonara.Services
 
             var previousBlockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockDetails.previousblockhash);
 
-            var blockTimeInSeconds = (blockDetails.time - previousBlockDetails.time) * 60;
+            var blockTimeInSeconds = blockDetails.time - previousBlockDetails.time;
 
             return new BlockParameters
             {
