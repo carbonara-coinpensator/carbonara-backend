@@ -1,16 +1,15 @@
-{
-	"MiningHardware": [{
-			"Name": "AntMiner S9",
-			"HashRate": 14000000000000,
-			"PowerConsumption": 1375,
-      "Algorithm": 0,
-      "ProductionDate": ""
-		},
-		{
-			"Name": "Ebit E10",
-			"HashRate": 18000000000000,
-			"PowerConsumption": 1620,
-			"Algorithm": 0
-		}
-	]
-}
+[
+  {
+    "Name": "AntMiner S9",
+    "HashRate": 14000000000000,
+    "PowerConsumption": 1375,
+    "Algorithm": 0,
+    "ProductionDate": ""
+  },
+  {
+    "Name": "Ebit E10",
+    "HashRate": 18000000000000,
+    "PowerConsumption": 1620,
+    "Algorithm": 0
+  }
+]
