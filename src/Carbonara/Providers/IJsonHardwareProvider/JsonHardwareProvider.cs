@@ -7,7 +7,7 @@ using Carbonara.Models.MiningHardware;
 using Carbonara.Providers;
 using Newtonsoft.Json;
 
-namespace Carbonara.Services
+namespace Carbonara.Providers
 {
     public class JsonHardwareProvider : IJsonHardwareProvider
     {
@@ -41,7 +41,7 @@ namespace Carbonara.Services
 
         private async Task<List<MiningDevice>> ReadDevicesFromFile(string filename)
         {
-            var _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var _path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             using (StreamReader reader = new StreamReader($"{_path}/{filename}"))
             {
                 var json = await reader.ReadToEndAsync();
