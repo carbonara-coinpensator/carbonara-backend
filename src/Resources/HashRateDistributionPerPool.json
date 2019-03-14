@@ -1,0 +1,147 @@
+[
+    {
+        "poolType": "BTC",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 60.8
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 25.2
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "US",
+                "percentage": 14.0
+            }
+        ]
+    },
+    {
+        "poolType": "SLUSH",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 14.65293787
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 5.387157117
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 45.65834168
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 1.368640354
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.942486583
+            },
+            {
+                "countryCode": "US",
+                "percentage": 31.9904364
+            }
+        ]
+    },
+    {
+        "poolType": "US",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "US",
+                "percentage": 100.0
+            }
+        ]
+    },
+    {
+        "poolType": "CN",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 100.0
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "US",
+                "percentage": 0.0
+            }
+        ]
+    },
+    {
+        "poolType": "OTH",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 33.33
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 33.33
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "US",
+                "percentage": 33.33
+            }
+        ]
+    }
+]
