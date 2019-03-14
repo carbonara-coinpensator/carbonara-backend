@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Carbonara.Models;
+using Carbonara.Models.MiningHardware;
 using Carbonara.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,13 @@ namespace Carbonara.Controllers
     public class CarbonaraController : ControllerBase
     {
         private readonly ICalculationService _calculationService;
+        private readonly IMiningHardwareService _miningHardwareService;
 
-        public CarbonaraController(ICalculationService calculationService)
+        public CarbonaraController(ICalculationService calculationService,
+            IMiningHardwareService miningHardwareService)
         {
             _calculationService = calculationService;
+            _miningHardwareService = miningHardwareService;
         }
 
         /// <summary>
