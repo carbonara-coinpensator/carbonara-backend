@@ -22,6 +22,11 @@ namespace Carbonara.Services.MiningHardwareService
             return await jsonHardwareProvider.GetAll();
         }
 
+        public async Task<List<int>> GetAvailableYears()
+        {
+            return await jsonHardwareProvider.GetAvailableYears();
+        }
+
         public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
         {
             return await jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);

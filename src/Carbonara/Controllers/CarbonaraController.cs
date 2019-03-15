@@ -40,12 +40,7 @@ namespace Carbonara.Controllers
         [HttpGet("MinningGearYearsSelection")]
         public async Task<IActionResult> GetMinningGearYearsSelection()
         {
-            var miningDevices = await _miningHardwareService.GetAll();
-
-            var years = miningDevices
-                .Select(m => m.ProductionYear)
-                .OrderByDescending(y => y);
-
+            var years = await _miningHardwareService.GetAvailableYears();
             return Ok(years);
         }
 
