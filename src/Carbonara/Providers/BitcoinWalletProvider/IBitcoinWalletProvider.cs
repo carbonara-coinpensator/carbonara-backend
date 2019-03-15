@@ -1,6 +1,6 @@
 
 using System.Threading.Tasks;
-using Carbonara.Models;
+using Carbonara.Models.BitcoinWalletInformation;
 using Carbonara.Providers.WalletProvider;
 
 namespace Carbonara.Providers.BitcoinWalletProvider
