@@ -27,6 +27,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Carbonara.Services.BitcoinWalletInformationService;
+using Carbonara.Providers.BitcoinWalletProvider;
 
 namespace Carbonara
 {
@@ -44,7 +46,7 @@ namespace Carbonara
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSwaggerGen(c => 
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Carbonara API", Version = "v1" });
 
@@ -64,15 +66,17 @@ namespace Carbonara
             services.AddScoped<ICountryCo2EmissionService, CountryCo2EmissionService>();
             services.AddScoped<IHashRatePerPoolService, HashRatePerPoolService>();
             services.AddScoped<IChartService, ChartService>();
+            services.AddScoped<IBitcoinWalletInformationService, BitcoinWalletInformationService>();
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
             services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();
-            services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();     
+            services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();
             services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();
             services.AddScoped<IHashRatePerPoolProvider, HashRatePerPoolProvider>();
-            services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>(); 
-            services.AddScoped<IChartProvider, ChartProvider>(); 
+            services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();
+            services.AddScoped<IChartProvider, ChartProvider>();
+            services.AddScoped<IBitcoinWalletProvider, BitcoinWalletProvider>();
 
             services.AddCors(options => options.AddPolicy("AllowAll", builder =>
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
@@ -93,7 +97,7 @@ namespace Carbonara
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => 
+            app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Carbonara API V1");
                 c.RoutePrefix = string.Empty;
