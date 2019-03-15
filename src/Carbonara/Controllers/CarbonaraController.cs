@@ -83,7 +83,8 @@ namespace Carbonara.Controllers
         /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation.
         /// Currently ignored and defaults to SHA256 </param>
         /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account.</param>
-        /// <response code="200">Returns an approximation of the CO2 emmission in KG for the given transaction hash </response>
+        /// <response code="200">Returns an approximation of the CO2 emmission in KG for the given transaction hash as well as the energy consumption
+        /// per regions and average CO2 emission per region </response>
         [HttpGet("Calculation")]
         public async Task<IActionResult> GetCalculationAsync(
             [FromQuery(Name = "TxHash")]string txHash,
