@@ -5,6 +5,6 @@ namespace Carbonara.Services.ChartService
 {
     public interface IChartService
     {
-        Task<BitcoinCharts> GetBitcoinChartsAsync()
+        Task<BitcoinCharts> GetBitcoinChartsAsync();
     }
 }
