@@ -169,10 +169,24 @@ namespace Carbonara.Tests.ServiceTests
         }
 
         [Fact]
-        public async Task TesCalculate()
+        public async Task TesCalculateWithEmissionsPerCountry()
         {
             var result = await _calculationService.Calculate(txHash, 2013, null, null);
             Assert.Equal(192, Math.Round(result));
+        }
+
+        [Fact]
+        public async Task TesCalculateWithChinaEmissions()
+        {
+            var result = await _calculationService.Calculate(txHash, 2013, null, "CN");
+            Assert.Equal(251, Math.Round(result));
+        }
+
+         [Fact]
+        public async Task TesCalculateWithEUEmissions()
+        {
+            var result = await _calculationService.Calculate(txHash, 2013, null, "EU");
+            Assert.Equal(119, Math.Round(result));
         }
     }
 }

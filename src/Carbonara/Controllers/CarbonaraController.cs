@@ -46,7 +46,7 @@ namespace Carbonara.Controllers
         [HttpGet("CountriesCO2EmissionSelection")]
         public async Task<IActionResult> GetCountriesCO2EmissionSelection()
         {
-            var countries = await Task.FromResult(new List<string> { "CN", "USA", "EU" });
+            var countries = await Task.FromResult(new List<string> { "CN", "US", "EU" });
             return Ok(countries);
         }
 
