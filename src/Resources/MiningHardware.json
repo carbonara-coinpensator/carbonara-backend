@@ -7,18 +7,18 @@
     "ProductionYear": 2013
   },
   {
-    "Name": "Ebit E10",
-    "HashRate": 18000000000000,
-    "PowerConsumption": 1620,
+    "Name": "ROCKMINER R3",
+    "HashRate": 480000000000,
+    "PowerConsumption": 450,
     "Algorithm": 0,
-    "ProductionYear": 2018
+    "ProductionYear": 2014
   },
   {
-    "Name": "WhatsMiner M10",
-    "HashRate": 33000000000000,
-    "PowerConsumption": 2150,
+    "Name": "AntMiner S5",
+    "HashRate": 1155000000000,
+    "PowerConsumption": 590,
     "Algorithm": 0,
-    "ProductionYear": 2019
+    "ProductionYear": 2015
   },
   {
     "Name": "WhatsMiner M3",
@@ -26,5 +26,26 @@
     "PowerConsumption": 1785,
     "Algorithm": 0,
     "ProductionYear": 2016
-  }  
+  },
+  {
+    "Name": "Antminer R4",
+    "HashRate": 8700000000000,
+    "PowerConsumption": 845,
+    "Algorithm": 0,
+    "ProductionYear": 2017
+  },
+  {
+    "Name": "Ebit E10",
+    "HashRate": 18000000000000,
+    "PowerConsumption": 1650,
+    "Algorithm": 0,
+    "ProductionYear": 2018
+  },
+  {
+    "Name": "Antminer S15",
+    "HashRate": 28000000000000,
+    "PowerConsumption": 1596,
+    "Algorithm": 0,
+    "ProductionYear": 2019
+  }
 ]
