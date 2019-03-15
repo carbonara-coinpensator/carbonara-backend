@@ -42,7 +42,7 @@ namespace Carbonara.Services.CalculationService
             _hashRatePerPoolService = hashRatePerPoolService;
         }
 
-        public async Task<decimal> Calculate(string txHash, int minningGearYear, string hashingAlg, string cO2EmissionCountry)
+        public async Task<decimal> Calculate(string txHash, int minningGearYear, string hashingAlg, string countryToUseForCo2EmissionAverage)
         {
             var transactionBlockParameters = await _blockParametersService.GetBlockParameters(txHash);
 
@@ -62,7 +62,7 @@ namespace Carbonara.Services.CalculationService
             var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
 
             var co2EmissionPerCountry =
-                this.TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission);
+                this.TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission, countryToUseForCo2EmissionAverage);
 
             var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
 
@@ -76,12 +76,12 @@ namespace Carbonara.Services.CalculationService
         {
             var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // Provided in TH/s
 
-            var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, minningGearYear); // Assumption is antminer s9 for now
+            var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, minningGearYear);
             var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000000000m; // Average hashrate of a machine converted to TH/s from H/s
             var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000m; // Average machine energy consumption converted to KW/h from W/h
 
             var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
-            var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockParameters.BlockTimeInSeconds / 3600m; // The energy used by one machine to mine that block
+            var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockParameters.BlockTimeInSeconds / 3600m;
 
             var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / blockParameters.NumberOfTransactionsInBlock;
 
@@ -147,13 +147,17 @@ namespace Carbonara.Services.CalculationService
 
         private List<Co2EmissionPerCountry> TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(
             ICollection<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
-            ICollection<Country> countriesWithAvgCo2Emission)
+            ICollection<Country> countriesWithAvgCo2Emission,
+            string countryToUseForCo2EmissionAverage)
         {
             var co2PerCountry = new List<Co2EmissionPerCountry>();
 
             foreach (var consumptionPerCountry in energyConsumptionPerCountry)
             {
-                var avgEmissionPerEnergyInGrams = countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2Emission;
+                // Either use the user provided country for avg emissions or use avg emissions per country
+                var avgEmissionPerEnergyInGrams = String.IsNullOrEmpty(countryToUseForCo2EmissionAverage) ?
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2Emission :
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == countryToUseForCo2EmissionAverage).Co2Emission;
 
                 co2PerCountry.Add(
                     new Co2EmissionPerCountry
