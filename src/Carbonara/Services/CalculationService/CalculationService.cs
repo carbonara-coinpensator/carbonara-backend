@@ -42,8 +42,10 @@ namespace Carbonara.Services.CalculationService
             _hashRatePerPoolService = hashRatePerPoolService;
         }
 
-        public async Task<decimal> Calculate(string txHash, int minningGearYear, string hashingAlg, string countryToUseForCo2EmissionAverage)
+        public async Task<CalculationResult> Calculate(string txHash, int minningGearYear, string hashingAlg, string countryToUseForCo2EmissionAverage)
         {
+            var result = new CalculationResult();
+
             var transactionBlockParameters = await _blockParametersService.GetBlockParameters(txHash);
 
             var fullEnergyConsumptionPerTransactionInKWH =
@@ -66,7 +68,10 @@ namespace Carbonara.Services.CalculationService
 
             var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
 
-            var result = await Task.FromResult(worldWideEmission);
+            result.EnergyConsumptionPerCountry = energyConsumptionPerCountry;
+            result.AverageEmissionPerCountry = countriesWithAvgCo2Emission;
+            result.FullCo2Emission = worldWideEmission;
+
             return result;
         }
 
@@ -90,7 +95,7 @@ namespace Carbonara.Services.CalculationService
 
         private List<EnergyConsumptionPerPool> DistributeEnergyPerPoolParticipationInTheHashRate(
             decimal fullEnergyForTransaction,
-            ICollection<Pool> hashRateDistributionPerPool)
+            List<Pool> hashRateDistributionPerPool)
         {
             var energyConsumptionPerPoolPerTransactionInKwh = new List<EnergyConsumptionPerPool>();
 
@@ -110,9 +115,9 @@ namespace Carbonara.Services.CalculationService
             return energyConsumptionPerPoolPerTransactionInKwh;
         }
 
-        private ICollection<EnergyConsumptionPerCountry> DistributeEnergyUsedByPoolsPerCountry(
-            ICollection<EnergyConsumptionPerPool> energyConsumptionPerPool,
-            ICollection<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType)
+        private List<EnergyConsumptionPerCountry> DistributeEnergyUsedByPoolsPerCountry(
+            List<EnergyConsumptionPerPool> energyConsumptionPerPool,
+            List<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType)
         {
             var energyConsumptionPerCountryPerTransactionInKwh = new List<EnergyConsumptionPerCountry>();
 
@@ -146,8 +151,8 @@ namespace Carbonara.Services.CalculationService
         }
 
         private List<Co2EmissionPerCountry> TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(
-            ICollection<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
-            ICollection<Country> countriesWithAvgCo2Emission,
+            List<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
+            List<Country> countriesWithAvgCo2Emission,
             string countryToUseForCo2EmissionAverage)
         {
             var co2PerCountry = new List<Co2EmissionPerCountry>();
