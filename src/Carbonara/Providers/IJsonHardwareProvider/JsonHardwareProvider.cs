@@ -37,7 +37,7 @@ namespace Carbonara.Providers
         public async Task<List<int>> GetAvailableYears()
         {
             var devices = await GetAll();
-            return devices.Select(i => i.ProductionYear).ToList();
+            return devices.Select(i => i.ProductionYear).OrderByDescending(i => i).ToList();
         }
     }
 }

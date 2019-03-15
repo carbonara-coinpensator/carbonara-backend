@@ -1,7 +1,5 @@
-
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Carbonara.Models;
+using Carbonara.Models.BitcoinWalletInformation;
 
 namespace Carbonara.Services.BitcoinWalletInformationService
 {

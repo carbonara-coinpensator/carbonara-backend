@@ -40,12 +40,7 @@ namespace Carbonara.Controllers
         [HttpGet("MinningGearYearsSelection")]
         public async Task<IActionResult> GetMinningGearYearsSelection()
         {
-            var miningDevices = await _miningHardwareService.GetAll();
-
-            var years = miningDevices
-                .Select(m => m.ProductionYear)
-                .OrderByDescending(y => y);
-
+            var years = await _miningHardwareService.GetAvailableYears();
             return Ok(years);
         }
 
@@ -70,8 +65,8 @@ namespace Carbonara.Controllers
             [FromQuery(Name = "BitcoinAddress")]string bitcoinAddress)
         {
 
-            var txHashes = await _bitcoinWalletInformationService.GetAllTransactionHashes(bitcoinAddress);
-            return Ok(txHashes);
+            var transactions = await _bitcoinWalletInformationService.GetInformation(bitcoinAddress);
+            return Ok(transactions.data.txs);
         }
 
         /// <summary>

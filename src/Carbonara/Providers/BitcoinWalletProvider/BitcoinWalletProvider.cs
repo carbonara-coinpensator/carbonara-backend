@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Carbonara.Models;
-using Carbonara.Services;
+using Carbonara.Models.BitcoinWalletInformation;
 using Carbonara.Services.HttpClientHandler;
-using Newtonsoft.Json;
 
 namespace Carbonara.Providers.BitcoinWalletProvider
 {
     public class BitcoinWalletProvider : BaseHttpProvider, IBitcoinWalletProvider
     {
-        protected override string Endpoint => "https://blockchain.info/rawaddr";
+        protected override string Endpoint => "https://chain.so/api/v2/get_tx_spent/btc";
 
         public BitcoinWalletProvider(IHttpClientHandler httpClient)
             : base(httpClient)
@@ -26,7 +24,7 @@ namespace Carbonara.Providers.BitcoinWalletProvider
         public async Task<List<string>> GetAllTransactionHashes(string address)
         {
             var walletInformation = await GetInformation(address);
-            return walletInformation.txs.Select(i => i.hash).ToList();
+            return walletInformation.data.txs.Select(i => i.txid).ToList();
         }
     }
 }

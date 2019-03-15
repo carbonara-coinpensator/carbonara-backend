@@ -9,5 +9,6 @@ namespace Carbonara.Services.MiningHardwareService
         Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm algorithm);
         Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year);
         Task<List<MiningDevice>> GetAll();
+        Task<List<int>> GetAvailableYears();
     }
 }
