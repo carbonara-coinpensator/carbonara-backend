@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Models.MiningHardware;
-using Carbonara.Services;
+using Carbonara.Services.CalculationService;
 using Carbonara.Services.MiningHardwareService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,12 @@ namespace Carbonara.Controllers
         [HttpGet("MinningGearYearsSelection")]
         public async Task<IActionResult> GetMinningGearYearsSelection()
         {
-            var years = await Task.FromResult(new List<int> { 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019 });
+            var miningDevices = await _miningHardwareService.GetAll();
+
+            var years = miningDevices
+                .Select(m => m.ProductionYear)
+                .OrderByDescending(y => y);
+
             return Ok(years);
         }
 
@@ -66,14 +72,16 @@ namespace Carbonara.Controllers
         /// Get the CO2 emission for a given transaction hash
         /// </summary>
         /// <param name="txHash">transaction hash</param>
-        /// <param name="minningGearYear">(Optional) Year for which the minning gear hashrate\energy consumtion approximation should be taken into account </param>
-        /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation</param>
-        /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account</param>
+        /// <param name="minningGearYear">(Optional) Year for which the minning gear hashrate\energy consumtion approximation should be taken into account.
+        /// If not provided, defaults to 2013 Antminer S9 </param>
+        /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation.
+        /// Currently ignored and defaults to SHA256 </param>
+        /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account.</param>
         /// <response code="200">Returns an approximation of the CO2 emmission in KG for the given transaction hash </response>
         [HttpGet("Calculation")]
         public async Task<IActionResult> GetCalculationAsync(
             [FromQuery(Name = "TxHash")]string txHash,
-            [FromQuery(Name = "MinningGearYear")]int? minningGearYear = null,
+            [FromQuery(Name = "MinningGearYear")]int minningGearYear = 2013,
             [FromQuery(Name="HashingAlgorithm")]string hashingAlgorithm = "0",
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
