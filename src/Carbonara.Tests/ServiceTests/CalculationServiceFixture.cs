@@ -28,23 +28,23 @@ namespace Carbonara.Tests.ServiceTests
         public CalculationServiceFixture()
         {
             var blockParametersServiceMock = new Mock<IBlockParametersService>();
-            blockParametersServiceMock.Setup(x=> x.GetBlockParameters(txHash))
+            blockParametersServiceMock.Setup(x => x.GetBlockParameters(txHash))
                 .Returns(Task.FromResult
                 (
-                    new BlockParameters 
+                    new BlockParameters
                     {
                         BlockTimeInSeconds = 600,
                         NumberOfTransactionsInBlock = 2000,
                         TimeOfBlockMining = 999999
                     }
                 ));
-            
+
             var networkHashRateServiceMock = new Mock<INetworkHashRateService>();
-            networkHashRateServiceMock.Setup(x=> x.GetDailyHashRateInPastAsync(999999))
+            networkHashRateServiceMock.Setup(x => x.GetDailyHashRateInPastAsync(999999))
                 .Returns(Task.FromResult(43141132m));
 
             var poolHashRateServiceMock = new Mock<IPoolHashRateService>();
-            poolHashRateServiceMock.Setup(x=> x.GetPoolHashRateDistributionForTxDateAsync(999999))
+            poolHashRateServiceMock.Setup(x => x.GetPoolHashRateDistributionForTxDateAsync(999999))
                 .Returns(Task.FromResult
                 (
                     new List<Pool>() {
@@ -70,10 +70,10 @@ namespace Carbonara.Tests.ServiceTests
             );
 
             var countryCo2EmissionServiceMock = new Mock<ICountryCo2EmissionService>();
-            countryCo2EmissionServiceMock.Setup(x=> x.GetCountriesCo2EmissionAsync())
+            countryCo2EmissionServiceMock.Setup(x => x.GetCountriesCo2EmissionAsync())
                 .Returns(Task.FromResult
                 (
-                    new List<Country>() 
+                    new List<Country>()
                     {
                         new Country { CountryCode = "CA", Co2Emission = 158.42m },
                         new Country { CountryCode = "CN", Co2Emission = 711.3686m },
@@ -86,21 +86,21 @@ namespace Carbonara.Tests.ServiceTests
             );
 
             var miningHardwareServiceMock = new Mock<IMiningHardwareService>();
-            miningHardwareServiceMock.Setup(x=> x.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, 2013))
+            miningHardwareServiceMock.Setup(x => x.GetHardwareByMiningAlgorithm(MiningAlgorithm.SHA256))
                 .Returns(Task.FromResult
                 (
-                    new List<MiningDevice>() 
+                    new List<MiningDevice>()
                     {
-                        new MiningDevice { HashRate = 14000000000000, PowerConsumption = 1375 },
+                        new MiningDevice { HashRate = 14000000000000, PowerConsumption = 1375, ProductionYear = 2013 },
                     }
                 )
             );
-        
+
             var hashRatePerPoolServiceMock = new Mock<IHashRatePerPoolService>();
-            hashRatePerPoolServiceMock.Setup(x=> x.GetHashRatePerPoolAsync())
+            hashRatePerPoolServiceMock.Setup(x => x.GetHashRatePerPoolAsync())
                 .Returns(Task.FromResult
                 (
-                   new List<PoolTypeHashRateDistribution>() 
+                   new List<PoolTypeHashRateDistribution>()
                    {
                         new PoolTypeHashRateDistribution()
                             {
@@ -169,24 +169,24 @@ namespace Carbonara.Tests.ServiceTests
         }
 
         [Fact]
-        public async Task TesCalculateWithEmissionsPerCountry()
+        public async Task TestCalculateWithEmissionsPerCountry()
         {
-            var result = await _calculationService.Calculate(txHash, 2013, null, null);
-            Assert.Equal(192, Math.Round(result.FullCo2Emission));
+            var result = await _calculationService.Calculate(txHash, null, null);
+            Assert.Equal(192, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
         }
 
         [Fact]
-        public async Task TesCalculateWithChinaEmissions()
+        public async Task TestCalculateWithChinaEmissions()
         {
-            var result = await _calculationService.Calculate(txHash, 2013, null, "CN");
-            Assert.Equal(251, Math.Round(result.FullCo2Emission));
+            var result = await _calculationService.Calculate(txHash, null, "CN");
+            Assert.Equal(251, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
         }
 
-         [Fact]
-        public async Task TesCalculateWithEUEmissions()
+        [Fact]
+        public async Task TestCalculateWithEUEmissions()
         {
-            var result = await _calculationService.Calculate(txHash, 2013, null, "EU");
-            Assert.Equal(119, Math.Round(result.FullCo2Emission));
+            var result = await _calculationService.Calculate(txHash, null, "EU");
+            Assert.Equal(119, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
         }
     }
 }

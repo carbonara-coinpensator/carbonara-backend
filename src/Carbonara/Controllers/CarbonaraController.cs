@@ -73,8 +73,6 @@ namespace Carbonara.Controllers
         /// Get the CO2 emission for a given transaction hash
         /// </summary>
         /// <param name="txHash">transaction hash</param>
-        /// <param name="minningGearYear">(Optional) Year for which the minning gear hashrate\energy consumtion approximation should be taken into account.
-        /// If not provided, defaults to 2013 Antminer S9 </param>
         /// <param name="hashingAlgorithm">(Optional) Hashing alg to be used for the minning gear approximation.
         /// Currently ignored and defaults to SHA256 </param>
         /// <param name="cO2EmissionCountry">(Optional) Country for which the CO2 emission per KWH appoximation should be taken into account.</param>
@@ -83,11 +81,10 @@ namespace Carbonara.Controllers
         [HttpGet("Calculation")]
         public async Task<IActionResult> GetCalculationAsync(
             [FromQuery(Name = "TxHash")]string txHash,
-            [FromQuery(Name = "MinningGearYear")]int minningGearYear = 2013,
             [FromQuery(Name = "HashingAlgorithm")]string hashingAlgorithm = "0",
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
-            var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
+            var result = await _calculationService.Calculate(txHash, hashingAlgorithm, cO2EmissionCountry);
             return Ok(result);
         }
 
