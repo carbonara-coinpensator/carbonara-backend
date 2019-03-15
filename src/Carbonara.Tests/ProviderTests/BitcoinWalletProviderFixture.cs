@@ -30,8 +30,8 @@ namespace Carbonara.Tests.ProviderTests
         public async Task TestGetInformation()
         {
             var result = await _bitcoinWalletProvider.GetInformation("1aa5cmqmvQq8YQTEqcTmW7dfBNuFwgdCD");
-            Assert.NotEmpty(result.txs);
-            Assert.All(result.txs, item => item.hash.Should().NotBeNullOrEmpty());
+            Assert.NotEmpty(result.data.txs);
+            Assert.All(result.data.txs, item => item.txid.Should().NotBeNullOrEmpty());
         }
 
         [Fact]
