@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Carbonara.Providers;
+using Carbonara.Providers.ChartProvider;
 using Carbonara.Providers.CountryCo2EmissionProvider;
 using Carbonara.Providers.HashRatePerPoolProvider;
 using Carbonara.Providers.PoolHashRateProvider;
 using Carbonara.Services;
 using Carbonara.Services.BlockParametersService;
+using Carbonara.Services.ChartService;
 using Carbonara.Services.CountryCo2EmissionService;
 using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Services.HttpClientHandler;
@@ -61,6 +63,7 @@ namespace Carbonara
             services.AddScoped<IPoolHashRateService, PoolHashRateService>();
             services.AddScoped<ICountryCo2EmissionService, CountryCo2EmissionService>();
             services.AddScoped<IHashRatePerPoolService, HashRatePerPoolService>();
+            services.AddScoped<IChartService, ChartService>();
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
@@ -68,7 +71,8 @@ namespace Carbonara
             services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();     
             services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();
             services.AddScoped<IHashRatePerPoolProvider, HashRatePerPoolProvider>();
-            services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();     
+            services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>(); 
+            services.AddScoped<IChartProvider, ChartProvider>(); 
 
             services.AddCors(options => options.AddPolicy("AllowAll", builder =>
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));

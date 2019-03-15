@@ -80,5 +80,11 @@ namespace Carbonara.Controllers
             var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
             return Ok(result);
         }
+
+        [HttpGet("Charts")]
+        public async Task<IActionResult> GetBitcoinChartsAsync()
+        {
+            return Ok();
+        }
     }
 }
