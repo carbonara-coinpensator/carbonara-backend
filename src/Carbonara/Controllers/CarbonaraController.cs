@@ -70,8 +70,8 @@ namespace Carbonara.Controllers
             [FromQuery(Name = "BitcoinAddress")]string bitcoinAddress)
         {
 
-            var txHashes = await _bitcoinWalletInformationService.GetAllTransactionHashes(bitcoinAddress);
-            return Ok(txHashes);
+            var transactions = await _bitcoinWalletInformationService.GetInformation(bitcoinAddress);
+            return Ok(transactions.data.txs);
         }
 
         /// <summary>
