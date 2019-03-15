@@ -26,41 +26,37 @@ namespace Carbonara.Tests.ProviderTests
         }
 
         [Theory]
-        [InlineData(0, 2018)]
-        [InlineData(0, 2013)]
-        public async Task TestGetByAlgorithmAndYear(int algo, int year)
+        [InlineData(MiningAlgorithm.SHA256, 2018)]
+        [InlineData(MiningAlgorithm.SHA256, 2013)]
+        public async Task TestGetByAlgorithmAndYear(MiningAlgorithm algo, int year)
         {
-            var algorithm = (MiningAlgorithm)algo;
-            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);
+            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
             Assert.NotEmpty(result);
-            Assert.All(result, item => Assert.True(item.Algorithm == algorithm && item.ProductionYear == year));
+            Assert.All(result, item => Assert.True(item.Algorithm == algo && item.ProductionYear == year));
         }
 
         [Theory]
-        [InlineData(1, 2018)]
-        public async Task TestGetByAlgorithmAndYearReturnsEmpty(int algo, int year)
+        [InlineData(MiningAlgorithm.SCRYPT, 2018)]
+        public async Task TestGetByAlgorithmAndYearReturnsEmpty(MiningAlgorithm algo, int year)
         {
-            var algorithm = (MiningAlgorithm)algo;
-            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);
+            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
             Assert.Empty(result);
         }
 
         [Theory]
-        [InlineData(0)]
-        public async Task TestGetByAlgorithm(int algo)
+        [InlineData(MiningAlgorithm.SHA256)]
+        public async Task TestGetByAlgorithm(MiningAlgorithm algo)
         {
-            var algorithm = (MiningAlgorithm)algo;
-            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algorithm);
+            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algo);
             Assert.NotEmpty(result);
-            Assert.All(result, item => Assert.True(item.Algorithm == algorithm));
+            Assert.All(result, item => Assert.True(item.Algorithm == algo));
         }
 
         [Theory]
-        [InlineData(1)]
-        public async Task TestGetByAlgorithmReturnsEMpty(int algo)
+        [InlineData(MiningAlgorithm.SCRYPT)]
+        public async Task TestGetByAlgorithmReturnsEMpty(MiningAlgorithm algo)
         {
-            var algorithm = (MiningAlgorithm)algo;
-            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algorithm);
+            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algo);
             Assert.Empty(result);
         }
 

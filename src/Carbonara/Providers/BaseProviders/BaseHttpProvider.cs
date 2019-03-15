@@ -30,9 +30,9 @@ namespace Carbonara.Providers
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(content);
             }
-            catch (System.Exception ex)
+            catch (JsonSerializationException ex)
             {
-                throw new System.Exception($"failed to deserialize the response of the {url}", ex);
+                throw new JsonSerializationException($"failed to deserialize the response of the {url}", ex);
             }
         }
     }
