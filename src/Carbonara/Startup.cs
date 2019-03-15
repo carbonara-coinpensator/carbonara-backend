@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,8 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Carbonara.Services.BitcoinWalletInformationService;
 using Carbonara.Providers.BitcoinWalletProvider;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Carbonara
 {
@@ -93,6 +96,21 @@ namespace Carbonara
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseExceptionHandler(
+                    options =>
+                    {
+                        options.Run(
+                            async context =>
+                            {
+                                var ex = context.Features.Get<IExceptionHandlerFeature>();
+                                context.Response.StatusCode = ex.Error.GetType() == typeof(ThirdPartyApiUnreachableException) ? 
+                                    (int)HttpStatusCode.BadGateway : 
+                                    (int)HttpStatusCode.InternalServerError;
+                                context.Response.ContentType = "text/html";
+                                await context.Response.WriteAsync(ex.Error.Message).ConfigureAwait(false);
+                            });
+                    }
+                );
             }
 
             app.UseSwagger();

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Carbonara.Models.BlockDetails;
 using Carbonara.Models.TransactionDetails;
@@ -22,7 +23,7 @@ namespace Carbonara.Providers
             var response = await _httpClient.GetAsync(url);
             if (!response.IsSuccessStatusCode)
             {
-                throw new System.Exception($"Failed to communicate with {url}: {response.ReasonPhrase}");
+                throw new ThirdPartyApiUnreachableException($"Failed to communicate with {url}: {response.ReasonPhrase}");
             }
 
             try
