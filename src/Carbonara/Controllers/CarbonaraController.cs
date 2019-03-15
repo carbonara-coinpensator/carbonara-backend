@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Models.MiningHardware;
+using Carbonara.Services;
+using Carbonara.Services.ChartService;
 using Carbonara.Services.CalculationService;
 using Carbonara.Services.MiningHardwareService;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +17,16 @@ namespace Carbonara.Controllers
     {
         private readonly ICalculationService _calculationService;
         private readonly IMiningHardwareService _miningHardwareService;
+        private readonly IChartService _chartService;
 
-        public CarbonaraController(ICalculationService calculationService,
-            IMiningHardwareService miningHardwareService)
+        public CarbonaraController(
+            ICalculationService calculationService,
+            IMiningHardwareService miningHardwareService,
+            IChartService chartService)
         {
             _calculationService = calculationService;
             _miningHardwareService = miningHardwareService;
+            _chartService = chartService;
         }
 
         /// <summary>
@@ -87,6 +93,17 @@ namespace Carbonara.Controllers
         {
             var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Get bitcoin co2 emission (currently mocked) and price chart
+        /// </summary>
+        /// <response code="200">Returns co2 emission (currently mocked) and price chart </response>
+        [HttpGet("Charts")]
+        public async Task<IActionResult> GetBitcoinChartsAsync()
+        {
+            var bitcoinCharts = await _chartService.GetBitcoinChartsAsync();
+            return Ok(bitcoinCharts);
         }
     }
 }
