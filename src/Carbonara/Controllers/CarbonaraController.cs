@@ -9,6 +9,7 @@ using Carbonara.Services.ChartService;
 using Carbonara.Services.CalculationService;
 using Carbonara.Services.MiningHardwareService;
 using Microsoft.AspNetCore.Mvc;
+using Carbonara.Services.BitcoinWalletInformationService;
 
 namespace Carbonara.Controllers
 {
@@ -18,15 +19,18 @@ namespace Carbonara.Controllers
         private readonly ICalculationService _calculationService;
         private readonly IMiningHardwareService _miningHardwareService;
         private readonly IChartService _chartService;
+        private readonly IBitcoinWalletInformationService _bitcoinWalletInformationService;
 
         public CarbonaraController(
             ICalculationService calculationService,
             IMiningHardwareService miningHardwareService,
-            IChartService chartService)
+            IChartService chartService,
+            IBitcoinWalletInformationService bitcoinWalletInformationService)
         {
             _calculationService = calculationService;
             _miningHardwareService = miningHardwareService;
             _chartService = chartService;
+            _bitcoinWalletInformationService = bitcoinWalletInformationService;
         }
 
         /// <summary>
@@ -62,15 +66,11 @@ namespace Carbonara.Controllers
         /// <param name="bitcoinAddress">Bitcoin address for which to provide the hashes (Address can be base58 or hash160)</param>
         /// <response code="200">List of strings representing tx hashes for a given address</response>
         [HttpGet("TransactionList")]
-        public async Task<IActionResult> GetFormulaParametersAsync(
+        public async Task<IActionResult> GetBitcoinTransactionsFromWalletAddress(
             [FromQuery(Name = "BitcoinAddress")]string bitcoinAddress)
         {
-            
-            var txHashes = await Task.FromResult(
-                new List<string> { 
-                    "d99439e228bc0cb2199eaaaa2303ef4c7fd85fbd529070ba175f86252c8577ce", 
-                    "c9d750df6d9e2e86d9b2ceedba942d5711a6f31caf5743f373f1d52d00e2bbf5", 
-                    "b587f4573b70a43d1091f32345e722d10144b33c9f2dcf7171d952a414021a5d" });
+
+            var txHashes = await _bitcoinWalletInformationService.GetAllTransactionHashes(bitcoinAddress);
             return Ok(txHashes);
         }
 
@@ -88,7 +88,7 @@ namespace Carbonara.Controllers
         public async Task<IActionResult> GetCalculationAsync(
             [FromQuery(Name = "TxHash")]string txHash,
             [FromQuery(Name = "MinningGearYear")]int minningGearYear = 2013,
-            [FromQuery(Name="HashingAlgorithm")]string hashingAlgorithm = "0",
+            [FromQuery(Name = "HashingAlgorithm")]string hashingAlgorithm = "0",
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
             var result = await _calculationService.Calculate(txHash, minningGearYear, hashingAlgorithm, cO2EmissionCountry);
