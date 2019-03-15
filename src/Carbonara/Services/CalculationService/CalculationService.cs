@@ -42,54 +42,70 @@ namespace Carbonara.Services.CalculationService
             _hashRatePerPoolService = hashRatePerPoolService;
         }
 
-        public async Task<CalculationResult> Calculate(string txHash, int minningGearYear, string hashingAlg, string countryToUseForCo2EmissionAverage)
+        public async Task<TotalCalculationResult> Calculate(string txHash, string hashingAlg, string countryToUseForCo2EmissionAverage)
         {
-            var result = new CalculationResult();
+            var result = new TotalCalculationResult();
 
             var transactionBlockParameters = await _blockParametersService.GetBlockParameters(txHash);
 
-            var fullEnergyConsumptionPerTransactionInKWH =
-                await this.CalculateTheFullEnergyConsumptionPerTransaction(transactionBlockParameters, minningGearYear);
-
             var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(transactionBlockParameters.TimeOfBlockMining);
-
-            var energyConsumptionPerPool =
-                this.DistributeEnergyPerPoolParticipationInTheHashRate(fullEnergyConsumptionPerTransactionInKWH, hashRateDistributionPerPool);
-
             var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
 
-            var energyConsumptionPerCountry =
-                this.DistributeEnergyUsedByPoolsPerCountry(energyConsumptionPerPool, geoDistributionOfHashratePerPoolType);
-
             var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
-
-            var co2EmissionPerCountry =
-                this.TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission, countryToUseForCo2EmissionAverage);
-
-            var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
-
-            result.EnergyConsumptionPerCountry = energyConsumptionPerCountry;
             result.AverageEmissionPerCountry = countriesWithAvgCo2Emission;
-            result.FullCo2Emission = worldWideEmission;
+
+            var fullEnergyConsumptionPerTransactionInKWHPerYear =
+                await this.CalculateTheFullEnergyConsumptionPerTransactionPerYear(transactionBlockParameters);
+
+            foreach (var year in fullEnergyConsumptionPerTransactionInKWHPerYear.Keys)
+            {
+                var calculationResultForYear = new CalculationResult();
+
+                var energyConsumptionPerPool =
+                    this.DistributeEnergyPerPoolParticipationInTheHashRate(fullEnergyConsumptionPerTransactionInKWHPerYear[year], hashRateDistributionPerPool);
+
+                var energyConsumptionPerCountry =
+                    this.DistributeEnergyUsedByPoolsPerCountry(energyConsumptionPerPool, geoDistributionOfHashratePerPoolType);
+
+                var co2EmissionPerCountry =
+                    this.TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(energyConsumptionPerCountry, countriesWithAvgCo2Emission, countryToUseForCo2EmissionAverage);
+
+                var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
+
+                calculationResultForYear.EnergyConsumptionPerCountry = energyConsumptionPerCountry;
+                calculationResultForYear.FullCo2Emission = worldWideEmission;
+
+                result.CalculationPerYear.Add(year, calculationResultForYear);
+            }
 
             return result;
         }
 
-        private async Task<decimal> CalculateTheFullEnergyConsumptionPerTransaction(
-            BlockParameters blockParameters,
-            int minningGearYear)
+        private async Task<Dictionary<int, decimal>> CalculateTheFullEnergyConsumptionPerTransactionPerYear(
+            BlockParameters blockParameters)
         {
             var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // Provided in TH/s
+            var energyConsumptionPerYear = new Dictionary<int, decimal>();
 
-            var hardware = await _miningHardwareService.GetHardwareByAlgorithmAndYear(MiningAlgorithm.SHA256, minningGearYear);
-            var avgMachineHashRateInTHs = hardware.First().HashRate / 1000000000000m; // Average hashrate of a machine converted to TH/s from H/s
-            var avgMachineEnergyConsumptionInKWH = hardware.First().PowerConsumption / 1000m; // Average machine energy consumption converted to KW/h from W/h
+            var devices = await _miningHardwareService.GetHardwareByMiningAlgorithm(MiningAlgorithm.SHA256);
+
+            foreach (var device in devices)
+            {
+                var value = CalculateFullEnergyConsumptionPerTransactionInKwhByDevice(blockParameters, networkHashRateInTHs, device);
+                energyConsumptionPerYear.Add(device.ProductionYear, value);
+            }
+            return energyConsumptionPerYear;
+        }
+
+        private static decimal CalculateFullEnergyConsumptionPerTransactionInKwhByDevice(BlockParameters blockParameters, decimal networkHashRateInTHs, MiningDevice device)
+        {
+            var avgMachineHashRateInTHs = device.HashRate / 1000000000000m; // Average hashrate of a machine converted to TH/s from H/s
+            var avgMachineEnergyConsumptionInKWH = device.PowerConsumption / 1000m; // Average machine energy consumption converted to KW/h from W/h
 
             var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
             var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockParameters.BlockTimeInSeconds / 3600m;
 
             var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / blockParameters.NumberOfTransactionsInBlock;
-
             return fullEnergyConsumptionPerTransactionInKWH;
         }
 

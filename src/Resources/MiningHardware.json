@@ -1,8 +1,8 @@
 [
   {
-    "Name": "AntMiner S9",
-    "HashRate": 14000000000000,
-    "PowerConsumption": 1375,
+    "Name": "AntMiner S1",
+    "HashRate": 180000000000,
+    "PowerConsumption": 360,
     "Algorithm": 0,
     "ProductionYear": 2013
   },

@@ -7,7 +7,5 @@ namespace Carbonara.Models.Calculation
         public decimal FullCo2Emission;
         
         public List<EnergyConsumptionPerCountry> EnergyConsumptionPerCountry;
-
-        public List<Country.Country> AverageEmissionPerCountry;
     }
 }
