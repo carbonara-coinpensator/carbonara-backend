@@ -8,9 +8,8 @@ using Carbonara.Models.Formula;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Models.PoolHashRateDistribution;
 using Carbonara.Models.PoolTypeHashRateDistribution;
-using Carbonara.Providers;
-using Carbonara.Services;
 using Carbonara.Services.BlockParametersService;
+using Carbonara.Services.CalculationService;
 using Carbonara.Services.CountryCo2EmissionService;
 using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Services.MiningHardwareService;
@@ -172,7 +171,7 @@ namespace Carbonara.Tests.ServiceTests
         [Fact]
         public async Task TesCalculate()
         {
-            var result = await _calculationService.Calculate(txHash, null, null, null);
+            var result = await _calculationService.Calculate(txHash, 2013, null, null);
             Assert.Equal(192, Math.Round(result));
         }
     }
