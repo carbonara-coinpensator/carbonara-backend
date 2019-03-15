@@ -2,40 +2,25 @@ using System.Threading.Tasks;
 using Carbonara.Models;
 using Carbonara.Services;
 using Carbonara.Services.HttpClientHandler;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Carbonara.Providers
 {
-    public class GlobalHashRateProvider : IGlobalHashRateProvider
+    public class GlobalHashRateProvider : BaseHttpProvider, IGlobalHashRateProvider
     {
-        private readonly IConfiguration _configuration;
-        private readonly IHttpClientHandler _httpClient;
+        protected override string Endpoint => "https://api.blockchain.info/charts/hash-rate";
 
-        public GlobalHashRateProvider(IConfiguration configuration, IHttpClientHandler httpClient)
+        public GlobalHashRateProvider(IHttpClientHandler httpClient)
+            : base(httpClient)
         {
-            _configuration = configuration;
-            _httpClient = httpClient;
         }
 
         public async Task<decimal> GetDailyHashRateAsync(int numberOfDays)
         {
-            var url = $"{_configuration["Api:GlobalHashRate"]}?timespan={numberOfDays}days&format=json";
-            var responseContent = await GetResponseContent(url);
+            var url = $"{Endpoint}?timespan={numberOfDays}days&format=json";
+            var hashRate = await GetResponseAndDeserialize<GlobalHashRate>(url);
 
-            var hashRate = JsonConvert.DeserializeObject<GlobalHashRate>(responseContent);
-
-            var hashRateOfFirstDayInPeriod = hashRate.values[0].y;
-
-            return (decimal) hashRateOfFirstDayInPeriod;
-        }
-
-        private async Task<string> GetResponseContent(string url)
-        {
-            var response = await _httpClient.GetAsync(url);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
+            return (decimal)hashRate.values[0].y;
         }
     }
 }

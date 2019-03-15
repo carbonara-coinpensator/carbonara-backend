@@ -5,12 +5,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Carbonara.Models.MiningHardware;
 using Carbonara.Providers;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Carbonara.Providers
 {
-    public class JsonHardwareProvider : IJsonHardwareProvider
+    public class JsonHardwareProvider : BaseJsonFileProvider, IJsonHardwareProvider
     {
+        
         public JsonHardwareProvider()
         {
         }
@@ -23,8 +25,7 @@ namespace Carbonara.Providers
 
         public async Task<List<MiningDevice>> GetAll()
         {
-            var devices = await ReadDevicesFromFile($"MiningHardware.json");
-            return devices.ToList();
+            return await ReadFromFileAndDeserialize<List<MiningDevice>>($"MiningHardware.json");
         }
 
         public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
@@ -37,16 +38,6 @@ namespace Carbonara.Providers
         {
             var devices = await GetAll();
             return devices.Select(i => i.ProductionYear).ToList();
-        }
-
-        private async Task<List<MiningDevice>> ReadDevicesFromFile(string filename)
-        {
-            var _path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            using (StreamReader reader = new StreamReader($"{_path}/{filename}"))
-            {
-                var json = await reader.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<List<MiningDevice>>(json);
-            }
         }
     }
 }

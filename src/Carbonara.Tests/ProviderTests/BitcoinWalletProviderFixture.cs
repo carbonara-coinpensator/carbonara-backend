@@ -15,19 +15,18 @@ using Xunit;
 
 namespace Carbonara.Tests.ProviderTests
 {
+    /// <summary>
+    /// Integration Tests to the BitcoinWalletProvider.await These tests run against the real API!
+    /// </summary>
     public class BitcoinWalletProviderFixture
     {
         private readonly IBitcoinWalletProvider _bitcoinWalletProvider;
-        private Mock<IConfiguration> ConfigurationMock = new Mock<IConfiguration>();
-
         public BitcoinWalletProviderFixture()
         {
-            _bitcoinWalletProvider = new BitcoinWalletProvider(ConfigurationMock.Object, new Services.HttpClientHandler.HttpClientHandler());
-
-            ConfigurationMock.Setup(i => i["Api:BitcoinWalletAddressApi"]).Returns("https://blockchain.info/rawaddr");
+            _bitcoinWalletProvider = new BitcoinWalletProvider(new Services.HttpClientHandler.HttpClientHandler());
         }
 
-        [Fact(Skip = "integration")]
+        [Fact]
         public async Task TestGetInformation()
         {
             var result = await _bitcoinWalletProvider.GetInformation("1aa5cmqmvQq8YQTEqcTmW7dfBNuFwgdCD");
@@ -35,7 +34,7 @@ namespace Carbonara.Tests.ProviderTests
             Assert.All(result.txs, item => item.hash.Should().NotBeNullOrEmpty());
         }
 
-        [Fact(Skip = "integration")]
+        [Fact]
         public async Task TestGetTransactions()
         {
             var txs = await _bitcoinWalletProvider.GetAllTransactionHashes("1HMwiTpDwBXaP7wKrLKPzuJ9S3szrBNgAS");

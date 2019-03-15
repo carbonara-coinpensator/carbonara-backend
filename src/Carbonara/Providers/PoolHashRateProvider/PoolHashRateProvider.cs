@@ -9,33 +9,21 @@ using Newtonsoft.Json;
 
 namespace Carbonara.Providers.PoolHashRateProvider
 {
-    public class PoolHashRateProvider : IPoolHashRateProvider
+    public class PoolHashRateProvider : BaseJsonFileProvider, IPoolHashRateProvider
     {
-        private readonly string _path;
-
         public PoolHashRateProvider()
         {
-            _path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
 
         public async Task<List<Pool>> GetDistributionBasedOnDateAsync(DateTime date)
         {
-            var distribution = await ReadDistributionFromFile($"{_path}/PoolHashRateDistribution.json");
+            var distribution = await ReadFromFileAndDeserialize<PoolHashRateDistribution>("PoolHashRateDistribution.json");
 
             var yearPeriod = date.Month <= 6 ? 1 : 2;
 
             var txDistribution = distribution.Distribution.First(d => d.Year == date.Year && d.YearPeriod == yearPeriod);
 
             return txDistribution.PoolInformation.ToList();
-        }
-
-        private async Task<PoolHashRateDistribution> ReadDistributionFromFile(string filename)
-        {
-            using (StreamReader reader = new StreamReader(filename))
-            {
-                var json = await reader.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<PoolHashRateDistribution>(json);
-            }
         }
     }
 }

@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Carbonara.Models
 {
+    /// <summary>
+    /// Objects that parse the response of the https://blockchain.info/rawaddr/$bitcoinAddress endpoint
+    /// </summary>
     public class BitcoinWalletInformation
     {
         public string hash160 { get; set; }
