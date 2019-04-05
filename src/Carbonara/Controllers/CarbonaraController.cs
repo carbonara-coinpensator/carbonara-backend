@@ -85,7 +85,12 @@ namespace Carbonara.Controllers
             [FromQuery(Name = "CO2EmissionCountry")]string cO2EmissionCountry = null)
         {
             var result = await _calculationService.Calculate(txHash, hashingAlgorithm, cO2EmissionCountry);
-            return Ok(result);
+            return Ok(new 
+                        {
+                            result.transactionDate,  
+                            result
+                        }
+                    );
         }
 
         /// <summary>

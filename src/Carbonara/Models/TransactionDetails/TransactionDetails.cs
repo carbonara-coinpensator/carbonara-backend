@@ -1,3 +1,5 @@
+using System;
+
 namespace Carbonara.Models.TransactionDetails
 {
     public class TransactionDetails
