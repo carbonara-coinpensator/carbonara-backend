@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Carbonara.Models.Calculation
@@ -6,7 +7,7 @@ namespace Carbonara.Models.Calculation
     {
         public Dictionary<int, CalculationResult> CalculationPerYear;
         public List<Country.Country> AverageCo2EmissionPerCountryInKg;
-
+        public DateTime transactionDate; 
         public TotalCalculationResult()
         {
             if (CalculationPerYear == null)
