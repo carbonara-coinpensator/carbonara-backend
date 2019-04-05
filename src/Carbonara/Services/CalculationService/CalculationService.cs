@@ -77,6 +77,8 @@ namespace Carbonara.Services.CalculationService
 
                 result.CalculationPerYear.Add(year, calculationResultForYear);
             }
+            
+            result.transactionDate = DateTime.UnixEpoch.AddSeconds(transactionBlockParameters.TimeOfBlockMining);
 
             return result;
         }
