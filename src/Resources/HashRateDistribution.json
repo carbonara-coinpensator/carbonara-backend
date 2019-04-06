@@ -1211,6 +1211,270 @@
                     "poolType": "OTH"
                 }
             ]
+        },
+
+        {
+            "year": 2013,
+            "yearPeriod": 1,
+            "poolInformation": [
+                {
+                    "name": "BTC.com",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "F2Pool",
+                    "percent": 2.96,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "Poolin",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "ViaBTC",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "SlushPool",
+                    "percent": 10.7,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC.TOP",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "unknown",
+                    "percent": 11.14,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "AntPool",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "BitClub",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Huobi.pool",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "WAYI.CN",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "Bitcoin.com",
+                    "percent": 0,
+                    "poolType": "US"
+                },
+                {
+                    "name": "DPOOL",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BitFury",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Bixin",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BTCC",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "sigmapool.com",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "tigerpool.net",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BWPool",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "EclipseMC",
+                    "percent": 2.53,
+                    "poolType": "EU"
+                },
+                {
+                    "name": "ASICMiner",
+                    "percent": 18.64,
+                    "poolType": "OTH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 2.75,
+                    "poolType": "US"
+                },
+                {
+                    "name": "BitMinter",
+                    "percent": 4.36,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC Guild",
+                    "percent": 23.46,
+                    "poolType": "US"
+                },
+                {
+                    "name": "Other",
+                    "percent": 23.46,
+                    "poolType": "OTH"
+                }
+            ]
+        },
+
+        {
+            "year": 2013,
+            "yearPeriod": 2,
+            "poolInformation": [
+                {
+                    "name": "BTC.com",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "F2Pool",
+                    "percent": 5.75,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "Poolin",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "ViaBTC",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "SlushPool",
+                    "percent": 5.73,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC.TOP",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "unknown",
+                    "percent": 11.02,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "AntPool",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "BitClub",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Huobi.pool",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "WAYI.CN",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "CloudHashing",
+                    "percent": 2.23,
+                    "poolType": "EU"
+                },
+                {
+                    "name": "GHash",
+                    "percent": 28.31,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BitFury",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Bixin",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BTCC",
+                    "percent": 0,
+                    "poolType": "BTC"
+                },
+                {
+                    "name": "sigmapool.com",
+                    "percent": 0,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "tigerpool.net",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "BWPool",
+                    "percent": 0,
+                    "poolType": "CN"
+                },
+                {
+                    "name": "EclipseMC",
+                    "percent": 2.87,
+                    "poolType": "EU"
+                },
+                {
+                    "name": "ASICMiner",
+                    "percent": 0.62,
+                    "poolType": "OTH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 11.24,
+                    "poolType": "US"
+                },
+                {
+                    "name": "BitMinter",
+                    "percent": 5.02,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC Guild",
+                    "percent": 26.5,
+                    "poolType": "US"
+                },
+                {
+                    "name": "Other",
+                    "percent": 0.71,
+                    "poolType": "OTH"
+                }
+            ]
         }
     ]
 }
