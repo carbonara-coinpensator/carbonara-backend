@@ -85,11 +85,6 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "Other",
                     "percent": 1.1,
                     "poolType": "OTH"
@@ -139,11 +134,6 @@
                     "name": "AntPool",
                     "percent": 13.4,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
                 },
                 {
                     "name": "Huobi.pool",
@@ -235,11 +225,6 @@
                     "name": "AntPool",
                     "percent": 13.4,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
                 },
                 {
                     "name": "Huobi.pool",
@@ -303,11 +288,6 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "ViaBTC",
                     "percent": 4.7,
                     "poolType": "BTC"
@@ -338,44 +318,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BitFury",
                     "percent": 5.26,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BTCC",
@@ -401,11 +346,6 @@
                 {
                     "name": "F2Pool",
                     "percent": 7.83,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -439,49 +379,14 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BitFury",
                     "percent": 2.74,
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BTCC",
                     "percent": 2.96,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "Other",
@@ -496,18 +401,8 @@
             "yearPeriod": 1,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 24.88,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -521,11 +416,6 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "unknown",
                     "percent": 3.92,
                     "poolType": "SLUSH"
@@ -534,31 +424,6 @@
                     "name": "AntPool",
                     "percent": 19.75,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BitFury",
@@ -576,16 +441,6 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "Other",
                     "percent": 22.54,
                     "poolType": "OTH"
@@ -598,18 +453,8 @@
             "yearPeriod": 2,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 15.32,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -623,44 +468,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "unknown",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
                     "name": "AntPool",
                     "percent": 19.2,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BitFury",
@@ -678,16 +488,6 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "Other",
                     "percent": 27.83,
                     "poolType": "OTH"
@@ -700,23 +500,8 @@
             "yearPeriod": 1,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 20.29,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -725,44 +510,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "unknown",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
                     "name": "AntPool",
                     "percent": 19.33,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BitFury",
@@ -770,24 +520,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BTCC",
                     "percent": 10.27,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BWPool",
@@ -827,23 +562,8 @@
             "yearPeriod": 2,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 23.68,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -852,44 +572,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "unknown",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
                     "name": "AntPool",
                     "percent": 22.73,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BitFury",
@@ -897,24 +582,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BTCC",
                     "percent": 13.77,
                     "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BWPool",
@@ -954,34 +624,14 @@
             "yearPeriod": 1,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 13.93,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
                     "name": "SlushPool",
                     "percent": 3.55,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
                 },
                 {
                     "name": "unknown",
@@ -994,68 +644,13 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BitFury",
                     "percent": 2.56,
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BTCC",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BWPool",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "KnCMiner",
                     "percent": 5.63,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "21Inc",
-                    "percent": 0,
                     "poolType": "SLUSH"
                 },
                 {
@@ -1086,34 +681,14 @@
             "yearPeriod": 2,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 22.59,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
                     "name": "SlushPool",
                     "percent": 3.56,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
                 },
                 {
                     "name": "unknown",
@@ -1126,39 +701,9 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "BitFury",
                     "percent": 4.42,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "BTCC",
@@ -1166,28 +711,8 @@
                     "poolType": "BTC"
                 },
                 {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BWPool",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
                     "name": "KnCMiner",
                     "percent": 6.22,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "21Inc",
-                    "percent": 0,
                     "poolType": "SLUSH"
                 },
                 {
@@ -1218,23 +743,8 @@
             "yearPeriod": 1,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 2.96,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -1243,74 +753,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "unknown",
                     "percent": 11.14,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "AntPool",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "Bitcoin.com",
-                    "percent": 0,
-                    "poolType": "US"
-                },
-                {
-                    "name": "DPOOL",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BitFury",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BTCC",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BWPool",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "EclipseMC",
@@ -1350,23 +795,8 @@
             "yearPeriod": 2,
             "poolInformation": [
                 {
-                    "name": "BTC.com",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "F2Pool",
                     "percent": 5.75,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "Poolin",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "ViaBTC",
-                    "percent": 0,
                     "poolType": "BTC"
                 },
                 {
@@ -1375,34 +805,9 @@
                     "poolType": "SLUSH"
                 },
                 {
-                    "name": "BTC.TOP",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
                     "name": "unknown",
                     "percent": 11.02,
                     "poolType": "SLUSH"
-                },
-                {
-                    "name": "AntPool",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "BitClub",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Huobi.pool",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "WAYI.CN",
-                    "percent": 0,
-                    "poolType": "CN"
                 },
                 {
                     "name": "CloudHashing",
@@ -1412,36 +817,6 @@
                 {
                     "name": "GHash",
                     "percent": 28.31,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BitFury",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "Bixin",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BTCC",
-                    "percent": 0,
-                    "poolType": "BTC"
-                },
-                {
-                    "name": "sigmapool.com",
-                    "percent": 0,
-                    "poolType": "SLUSH"
-                },
-                {
-                    "name": "tigerpool.net",
-                    "percent": 0,
-                    "poolType": "CN"
-                },
-                {
-                    "name": "BWPool",
-                    "percent": 0,
                     "poolType": "CN"
                 },
                 {
@@ -1579,7 +954,7 @@
                     "name": "Eligius",
                     "percent": 1.71,
                     "poolType": "US"
-                },
+                }
             ]
         },
 
