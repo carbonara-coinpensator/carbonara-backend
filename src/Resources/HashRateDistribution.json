@@ -1564,6 +1564,60 @@
                     "poolType": "OTH"
                 }
             ]
+        },
+
+        {
+            "year": 2011,
+            "yearPeriod": 1,
+            "poolInformation": [
+                {
+                    "name": "unknown",
+                    "percent": 98.29,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 1.71,
+                    "poolType": "US"
+                },
+            ]
+        },
+
+        {
+            "year": 2011,
+            "yearPeriod": 2,
+            "poolInformation": [
+                {
+                    "name": "unknown",
+                    "percent": 79.91,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 4.01,
+                    "poolType": "US"
+                },
+                {
+                    "name": "BitMinter",
+                    "percent": 0.65,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "OzCoin",
+                    "percent": 0.07,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC Guild",
+                    "percent": 12.17,
+                    "poolType": "US"
+                },
+                {
+                    "name": "Other",
+                    "percent": 3.19,
+                    "poolType": "OTH"
+                }
+            ]
         }
     ]
 }
