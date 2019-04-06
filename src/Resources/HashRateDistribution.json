@@ -1475,6 +1475,95 @@
                     "poolType": "OTH"
                 }
             ]
+        },
+
+        {
+            "year": 2012,
+            "yearPeriod": 1,
+            "poolInformation": [
+                {
+                    "name": "SlushPool",
+                    "percent": 9.42,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "unknown",
+                    "percent": 65.27,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 2.14,
+                    "poolType": "US"
+                },
+                {
+                    "name": "BitMinter",
+                    "percent": 1.9,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "OzCoin",
+                    "percent": 7.81,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC Guild",
+                    "percent": 11.8,
+                    "poolType": "US"
+                },
+                {
+                    "name": "Other",
+                    "percent": 1.66,
+                    "poolType": "OTH"
+                }
+            ]
+        },
+
+        {
+            "year": 2012,
+            "yearPeriod": 2,
+            "poolInformation": [
+                {
+                    "name": "SlushPool",
+                    "percent": 12.22,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "unknown",
+                    "percent": 50.96,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "Eligius",
+                    "percent": 0.78,
+                    "poolType": "US"
+                },
+                {
+                    "name": "BitMinter",
+                    "percent": 6.15,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "OzCoin",
+                    "percent": 5.06,
+                    "poolType": "SLUSH"
+                },
+                {
+                    "name": "BTC Guild",
+                    "percent": 14.43,
+                    "poolType": "US"
+                },
+                {
+                    "name": "EclipseMC",
+                    "percent": 7.81,
+                    "poolType": "EU"
+                },
+                {
+                    "name": "Other",
+                    "percent": 2.59,
+                    "poolType": "OTH"
+                }
+            ]
         }
     ]
 }
