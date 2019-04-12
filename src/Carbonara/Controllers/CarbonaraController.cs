@@ -91,7 +91,7 @@ namespace Carbonara.Controllers
         [HttpGet("Block/Calculation")]
         public async Task<IActionResult> GetEnergyConsumptionOfBlock([FromQuery(Name = "BlockHash")] string blockHash)
         {
-            var energyConsumption = await _calculationService.CalculateBlockEnergyConsumption(blockHash);
+            var energyConsumption = await _calculationService.CalculateBlockEnergyConsumptionAsync(blockHash);
             return Ok(energyConsumption);
         }
 

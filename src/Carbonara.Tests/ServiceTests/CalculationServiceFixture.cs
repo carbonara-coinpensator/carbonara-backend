@@ -28,7 +28,7 @@ namespace Carbonara.Tests.ServiceTests
         public CalculationServiceFixture()
         {
             var blockParametersServiceMock = new Mock<IBlockParametersService>();
-            blockParametersServiceMock.Setup(x => x.GetBlockParameters(txHash))
+            blockParametersServiceMock.Setup(x => x.GetBlockParametersByTxHash(txHash))
                 .Returns(Task.FromResult
                 (
                     new BlockParameters

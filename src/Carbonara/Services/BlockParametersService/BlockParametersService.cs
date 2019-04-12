@@ -13,11 +13,21 @@ namespace Carbonara.Services.BlockParametersService
             _blockExplorerProvider = blockExplorerProvider;
         }
 
-        public async Task<BlockParameters> GetBlockParameters(string txHash)
+        public async Task<BlockParameters> GetBlockParametersByTxHash(string txHash)
         {
             var transactionDetails = await _blockExplorerProvider.GetTransactionDetailsAsync(txHash);
 
-            var blockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(transactionDetails.data.blockhash);
+            return await GetBlockParameters(transactionDetails.data.blockhash);
+        }
+
+        public async Task<BlockParameters> GetBlockParametersByBlockHash(string blockHash)
+        {
+            return await GetBlockParameters(blockHash);
+        }
+
+        private async Task<BlockParameters> GetBlockParameters(string blockHash)
+        {
+            var blockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockHash);
 
             var previousBlockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockDetails.data.previous_blockhash);
 
