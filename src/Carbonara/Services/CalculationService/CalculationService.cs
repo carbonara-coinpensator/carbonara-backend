@@ -193,5 +193,10 @@ namespace Carbonara.Services.CalculationService
 
             return co2PerCountry;
         }
+
+        public Task<decimal> CalculateBlockEnergyConsumption(string blockHash)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

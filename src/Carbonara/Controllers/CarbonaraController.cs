@@ -88,6 +88,13 @@ namespace Carbonara.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Block/Calculation")]
+        public async Task<IActionResult> GetEnergyConsumptionOfBlock([FromQuery(Name = "BlockHash")] string blockHash)
+        {
+            var energyConsumption = await _calculationService.CalculateBlockEnergyConsumption(blockHash);
+            return Ok(energyConsumption);
+        }
+
         /// <summary>
         /// Get bitcoin co2 emission (currently mocked) and price chart
         /// </summary>
