@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -14,9 +17,6 @@ namespace BlockDataScrapper
 
     class Program
     {
-        public static Uri ApiBaseAddress = new Uri("https://chain.api.btc.com/v3/");
-        public static List<RootObject> data = new List<RootObject>();
-
         static void Main(string[] args)
         {
             GetData().GetAwaiter().GetResult();
@@ -24,23 +24,39 @@ namespace BlockDataScrapper
 
         private static async Task GetData()
         {
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
+            var startDate = new DateTime(2012, 1, 1);
+            var endDate = new DateTime(2012, 1, 10);
 
-            int year = 2015;
-            int month = 01;
-            int day = 01;
-
-            // TODO: 5 block per week, prosek 
+            var sb = new StringBuilder();
 
             try
             {
-                var response = await client.GetAsync("https://chain.api.btc.com/v3/block/date/20151215");
-                var data = await response.Content.ReadAsStringAsync();
+                while (startDate < endDate)
+                {
+                    var monthString = startDate.Month < 10 ? $"0{startDate.Month}" : startDate.Month.ToString();
+                    var dayString = startDate.Day < 10 ? $"0{startDate.Day}" : startDate.Day.ToString();
 
-                var d = JsonConvert.DeserializeObject<RootObject>(data);
-                Console.Write(d);
-                Console.ReadKey();
+                    var response = await client.GetAsync($"https://chain.api.btc.com/v3/block/date/{startDate.Year}{monthString}{dayString}");
+                    var data = await response.Content.ReadAsStringAsync();
+                    var d = JsonConvert.DeserializeObject<RootObject>(data);
+
+                    var random = new Random();
+                    var selectedBlockIndex = random.Next(0, d.data.Count - 1);
+                    var selectedBlock = d.data[selectedBlockIndex];
+
+                    var blockData = selectedBlock.hash + " " + selectedBlock.timestamp + " " + DateTime.UnixEpoch.AddSeconds(selectedBlock.timestamp);
+                    sb.AppendLine(blockData);
+                    startDate = startDate.AddDays(1);
+
+                    Thread.Sleep(3000);
+                }
+
+                File.WriteAllText("data.txt", sb.ToString());
+
+                Console.Read();
             }
+
             catch (Exception e)
             {
                 Console.Write(e.Message);
