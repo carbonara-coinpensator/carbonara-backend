@@ -5,6 +5,7 @@ namespace Carbonara.Services.BlockParametersService
 {
     public interface IBlockParametersService
     {
-        Task<BlockParameters> GetBlockParameters(string txHash);
+        Task<BlockParameters> GetBlockParametersByTxHash(string txHash);
+        Task<BlockParameters> GetBlockParametersByBlockHash(string blockHash);
     }
 }
