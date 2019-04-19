@@ -58,6 +58,35 @@
         ]
     },
     {
+        "poolType": "EU",
+        "distributionPerCountry": [
+            {
+                "countryCode": "CA",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "CN",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "EU",
+                "percentage": 100.0
+            },
+            {
+                "countryCode": "JP",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "SG",
+                "percentage": 0.0
+            },
+            {
+                "countryCode": "US",
+                "percentage": 0.0
+            }
+        ]
+    },
+    {
         "poolType": "US",
         "distributionPerCountry": [
             {
