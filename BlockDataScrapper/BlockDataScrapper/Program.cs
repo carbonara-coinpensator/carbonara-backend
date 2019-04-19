@@ -19,14 +19,15 @@ namespace BlockDataScrapper
     {
         static void Main(string[] args)
         {
-            GetData().GetAwaiter().GetResult();
+            //GetBitcoinData().GetAwaiter().GetResult();
+            GetCarbonaraData().GetAwaiter().GetResult();
         }
 
-        private static async Task GetData()
+        private static async Task GetBitcoinData()
         {
             var client = new HttpClient();
-            var startDate = new DateTime(2012, 1, 1);
-            var endDate = new DateTime(2012, 1, 10);
+            var startDate = new DateTime(2013, 1, 1);
+            var endDate = new DateTime(2013, 1, 10);
 
             var sb = new StringBuilder();
 
@@ -61,6 +62,21 @@ namespace BlockDataScrapper
             {
                 Console.Write(e.Message);
             }           
+        }
+
+        private static async Task GetCarbonaraData()
+        {
+            var bitcoinData = File.ReadAllLines("data.txt");
+            var client = new HttpClient();
+
+
+            foreach (var line in bitcoinData)
+            {
+                var hash = line.Split(' ')[0];
+
+                var response = await client.GetAsync($"https://localhost:5001/api/carbonara/block/calculation?blockHash={hash}");
+                var content = await response.Content.ReadAsStringAsync();
+            }
         }
     }
 }
