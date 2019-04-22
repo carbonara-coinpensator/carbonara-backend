@@ -24,5 +24,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>  
   </ItemGroup>
-  
+  <Target Name="CopyDbForTesting" AfterTargets="AfterBuild">
+  <Copy SourceFiles="../Carbonara/Db/Carbonara.db" DestinationFolder="$(OutDir)/Db" />
+</Target>
 </Project>

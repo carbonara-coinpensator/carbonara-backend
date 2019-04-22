@@ -10,31 +10,31 @@ namespace Carbonara.Services.MiningHardwareService
 {
     public class MiningHardwareService : IMiningHardwareService
     {
-        private readonly IJsonHardwareProvider jsonHardwareProvider;
+        private readonly IHardwareProvider hardwareProvider;
 
-        public MiningHardwareService(IJsonHardwareProvider jsonHardwareProvider)
+        public MiningHardwareService(IHardwareProvider hardwareProvider)
         {
-            this.jsonHardwareProvider = jsonHardwareProvider;
+            this.hardwareProvider = hardwareProvider;
         }
 
         public async Task<List<MiningDevice>> GetAll()
         {
-            return await jsonHardwareProvider.GetAll();
+            return await hardwareProvider.GetAll();
         }
 
         public async Task<List<int>> GetAvailableYears()
         {
-            return await jsonHardwareProvider.GetAvailableYears();
+            return await hardwareProvider.GetAvailableYears();
         }
 
         public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
         {
-            return await jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);
+            return await hardwareProvider.GetHardwareByAlgorithmAndYear(algorithm, year);
         }
 
         public async Task<List<MiningDevice>> GetHardwareByMiningAlgorithm(MiningAlgorithm algorithm)
         {
-            return await jsonHardwareProvider.GetHardwareByMiningAlgorithm(algorithm);
+            return await hardwareProvider.GetHardwareByMiningAlgorithm(algorithm);
         }
     }
 }
