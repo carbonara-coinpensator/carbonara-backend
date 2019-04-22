@@ -9,19 +9,19 @@ using Xunit;
 
 namespace Carbonara.Tests.ProviderTests
 {
-    public class JsonHardwareProviderFixture
+    public class HardwareProviderFixture
     {
-        private readonly IJsonHardwareProvider _jsonHardwareProvider;
+        private readonly IHardwareProvider _hardwareProvider;
 
-        public JsonHardwareProviderFixture()
+        public HardwareProviderFixture()
         {
-            _jsonHardwareProvider = new JsonHardwareProvider();
+            _hardwareProvider = new HardwareProvider();
         }
 
         [Fact]
         public async Task TestGetAll()
         {
-            var result = await _jsonHardwareProvider.GetAll();
+            var result = await _hardwareProvider.GetAll();
             Assert.All(result, item => Assert.True(item.HashRate > 0));
         }
 
@@ -30,7 +30,7 @@ namespace Carbonara.Tests.ProviderTests
         [InlineData(MiningAlgorithm.SHA256, 2013)]
         public async Task TestGetByAlgorithmAndYear(MiningAlgorithm algo, int year)
         {
-            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
+            var result = await _hardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
             Assert.NotEmpty(result);
             Assert.All(result, item => Assert.True(item.Algorithm == algo && item.ProductionYear == year));
         }
@@ -39,7 +39,7 @@ namespace Carbonara.Tests.ProviderTests
         [InlineData(MiningAlgorithm.SCRYPT, 2018)]
         public async Task TestGetByAlgorithmAndYearReturnsEmpty(MiningAlgorithm algo, int year)
         {
-            var result = await _jsonHardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
+            var result = await _hardwareProvider.GetHardwareByAlgorithmAndYear(algo, year);
             Assert.Empty(result);
         }
 
@@ -47,7 +47,7 @@ namespace Carbonara.Tests.ProviderTests
         [InlineData(MiningAlgorithm.SHA256)]
         public async Task TestGetByAlgorithm(MiningAlgorithm algo)
         {
-            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algo);
+            var result = await _hardwareProvider.GetHardwareByMiningAlgorithm(algo);
             Assert.NotEmpty(result);
             Assert.All(result, item => Assert.True(item.Algorithm == algo));
         }
@@ -56,14 +56,14 @@ namespace Carbonara.Tests.ProviderTests
         [InlineData(MiningAlgorithm.SCRYPT)]
         public async Task TestGetByAlgorithmReturnsEMpty(MiningAlgorithm algo)
         {
-            var result = await _jsonHardwareProvider.GetHardwareByMiningAlgorithm(algo);
+            var result = await _hardwareProvider.GetHardwareByMiningAlgorithm(algo);
             Assert.Empty(result);
         }
 
         [Fact]
         public async Task TestGetAllYears()
         {
-            var result = await _jsonHardwareProvider.GetAvailableYears();
+            var result = await _hardwareProvider.GetAvailableYears();
             Assert.NotEmpty(result);
             Assert.All(result, item => Assert.True(item > 2010));
         }

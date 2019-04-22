@@ -73,7 +73,7 @@ namespace Carbonara
 
             services.AddScoped<IBlockExplorerProvider, BlockExplorerProvider>();
             services.AddScoped<IGlobalHashRateProvider, GlobalHashRateProvider>();
-            services.AddScoped<IJsonHardwareProvider, JsonHardwareProvider>();
+            services.AddScoped<IHardwareProvider, HardwareProvider>();
             services.AddScoped<IPoolHashRateProvider, PoolHashRateProvider>();
             services.AddScoped<ICountryCo2EmissionProvider, CountryCo2EmissionProvider>();
             services.AddScoped<IHashRatePerPoolProvider, HashRatePerPoolProvider>();

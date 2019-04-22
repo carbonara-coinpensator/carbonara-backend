@@ -10,10 +10,10 @@ using Newtonsoft.Json;
 
 namespace Carbonara.Providers
 {
-    public class JsonHardwareProvider : BaseJsonFileProvider, IJsonHardwareProvider
+    public class HardwareProvider : BaseLiteDbProvider, IHardwareProvider
     {
         
-        public JsonHardwareProvider()
+        public HardwareProvider()
         {
         }
 
@@ -25,7 +25,8 @@ namespace Carbonara.Providers
 
         public async Task<List<MiningDevice>> GetAll()
         {
-            return await ReadFromFileAndDeserialize<List<MiningDevice>>($"MiningHardware.json");
+            var result = await ReadCollectionFromDb<MiningDevice>("miningdevices");
+            return result.ToList();
         }
 
         public async Task<List<MiningDevice>> GetHardwareByAlgorithmAndYear(MiningAlgorithm algorithm, int year)
