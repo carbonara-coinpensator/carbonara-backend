@@ -17,7 +17,7 @@ namespace Carbonara.Providers.PoolHashRateProvider
 
         public async Task<List<Pool>> GetDistributionBasedOnDateAsync(DateTime date)
         {
-            var distribution = await ReadFromFileAndDeserialize<PoolHashRateDistribution>("PoolHashRateDistribution.json");
+            var distribution = await ReadFromFileAndDeserialize<PoolHashRateDistribution>("HashRateDistribution.json");
 
             var yearPeriod = date.Month <= 6 ? 1 : 2;
 
