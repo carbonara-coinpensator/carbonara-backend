@@ -204,14 +204,6 @@ namespace Carbonara.Services.CalculationService
         {
             var blockParameters = await _blockParametersService.GetBlockParametersByBlockHash(blockHash);
 
-            var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
-            var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
-
-            var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
-
-            var fullEnergyConsumptionPerTransactionInKWHPerYear =
-                await this.CalculateTheFullEnergyConsumptionPerTransactionPerYear(blockParameters);
-
             var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // Provided in TH/s
 
             var blockDate = DateTime.UnixEpoch.AddSeconds(blockParameters.TimeOfBlockMining);

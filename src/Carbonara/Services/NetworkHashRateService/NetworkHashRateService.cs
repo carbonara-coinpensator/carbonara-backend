@@ -16,7 +16,7 @@ namespace Carbonara.Services.NetworkHashRateService
         public async Task<decimal> GetDailyHashRateInPastAsync(int blockTime)
         {        
             var dateOfTransaction = DateTime.UnixEpoch.AddSeconds(blockTime);
-            var dateDiff = DateTime.Now - dateOfTransaction;
+            var dateDiff = DateTime.UtcNow - dateOfTransaction;
 
             return await _globalHashRateProvider.GetDailyHashRateAsync(dateDiff.Days + 1);
         }
