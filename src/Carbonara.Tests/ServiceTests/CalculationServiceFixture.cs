@@ -75,12 +75,12 @@ namespace Carbonara.Tests.ServiceTests
                 (
                     new List<Country>()
                     {
-                        new Country { CountryCode = "CA", Co2Emission = 158.42m },
-                        new Country { CountryCode = "CN", Co2Emission = 711.3686m },
-                        new Country { CountryCode = "EU", Co2Emission =  336.8498m },
-                        new Country { CountryCode = "JP", Co2Emission = 571.5443m },
-                        new Country { CountryCode = "SG", Co2Emission = 431.3m },
-                        new Country { CountryCode = "US", Co2Emission = 489.4282m },
+                        new Country { CountryCode = "CA", Co2EmissionInKg = 158.42m },
+                        new Country { CountryCode = "CN", Co2EmissionInKg = 711.3686m },
+                        new Country { CountryCode = "EU", Co2EmissionInKg =  336.8498m },
+                        new Country { CountryCode = "JP", Co2EmissionInKg = 571.5443m },
+                        new Country { CountryCode = "SG", Co2EmissionInKg = 431.3m },
+                        new Country { CountryCode = "US", Co2EmissionInKg = 489.4282m },
                     }
                 )
             );
@@ -172,21 +172,21 @@ namespace Carbonara.Tests.ServiceTests
         public async Task TestCalculateWithEmissionsPerCountry()
         {
             var result = await _calculationService.Calculate(txHash, null, null);
-            Assert.Equal(192, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
+            Assert.Equal(192, Math.Round(result.CalculationPerYear[2013].FullCo2EmissionInKg));
         }
 
         [Fact]
         public async Task TestCalculateWithChinaEmissions()
         {
             var result = await _calculationService.Calculate(txHash, null, "CN");
-            Assert.Equal(251, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
+            Assert.Equal(251, Math.Round(result.CalculationPerYear[2013].FullCo2EmissionInKg));
         }
 
         [Fact]
         public async Task TestCalculateWithEUEmissions()
         {
             var result = await _calculationService.Calculate(txHash, null, "EU");
-            Assert.Equal(119, Math.Round(result.CalculationPerYear[2013].FullCo2Emission));
+            Assert.Equal(119, Math.Round(result.CalculationPerYear[2013].FullCo2EmissionInKg));
         }
     }
 }

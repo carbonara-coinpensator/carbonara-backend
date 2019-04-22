@@ -16,7 +16,7 @@ using Xunit;
 namespace Carbonara.Tests.ProviderTests
 {
     /// <summary>
-    /// Integration Tests to the BitcoinWalletProvider.await These tests run against the real API!
+    /// Integration Tests to the BitcoinWalletProvider. These tests run against the real API!
     /// </summary>
     public class BitcoinWalletProviderFixture
     {
