@@ -17,7 +17,7 @@
     <Content Include="../Resources/MiningHardware.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>  
-    <Content Include="../Resources/PoolHashRateDistribution.json">
+    <Content Include="../Resources/HashRateDistribution.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="../Resources/CountryCo2EmissionPerKwh.json">

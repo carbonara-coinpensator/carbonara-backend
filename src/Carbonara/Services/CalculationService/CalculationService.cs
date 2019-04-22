@@ -46,13 +46,13 @@ namespace Carbonara.Services.CalculationService
         {
             var result = new TotalCalculationResult();
 
-            var transactionBlockParameters = await _blockParametersService.GetBlockParameters(txHash);
+            var transactionBlockParameters = await _blockParametersService.GetBlockParametersByTxHash(txHash);
 
             var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(transactionBlockParameters.TimeOfBlockMining);
             var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
 
             var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
-            result.AverageEmissionPerCountry = countriesWithAvgCo2Emission;
+            result.AverageCo2EmissionPerCountryInKg = countriesWithAvgCo2Emission;
 
             var fullEnergyConsumptionPerTransactionInKWHPerYear =
                 await this.CalculateTheFullEnergyConsumptionPerTransactionPerYear(transactionBlockParameters);
@@ -72,11 +72,13 @@ namespace Carbonara.Services.CalculationService
 
                 var worldWideEmission = co2EmissionPerCountry.Sum(c => c.Co2Emission);
 
-                calculationResultForYear.EnergyConsumptionPerCountry = energyConsumptionPerCountry;
-                calculationResultForYear.FullCo2Emission = worldWideEmission;
+                calculationResultForYear.EnergyConsumptionPerCountryInKWh = energyConsumptionPerCountry;
+                calculationResultForYear.FullCo2EmissionInKg = worldWideEmission;
 
                 result.CalculationPerYear.Add(year, calculationResultForYear);
             }
+            
+            result.transactionDate = DateTime.UnixEpoch.AddSeconds(transactionBlockParameters.TimeOfBlockMining);
 
             return result;
         }
@@ -97,7 +99,14 @@ namespace Carbonara.Services.CalculationService
             return energyConsumptionPerYear;
         }
 
-        private static decimal CalculateFullEnergyConsumptionPerTransactionInKwhByDevice(BlockParameters blockParameters, decimal networkHashRateInTHs, MiningDevice device)
+        private decimal CalculateFullEnergyConsumptionPerTransactionInKwhByDevice(BlockParameters blockParameters, decimal networkHashRateInTHs, MiningDevice device)
+        {
+            var fullEnergyConsumptionPerBlockInKwhByDevice = CalculateFullEnergyConsumptionPerBlockInKwhByDevice(blockParameters, networkHashRateInTHs, device);
+
+            return fullEnergyConsumptionPerBlockInKwhByDevice / blockParameters.NumberOfTransactionsInBlock;
+        }
+
+        private decimal CalculateFullEnergyConsumptionPerBlockInKwhByDevice(BlockParameters blockParameters, decimal networkHashRateInTHs, MiningDevice device)
         {
             var avgMachineHashRateInTHs = device.HashRate / 1000000000000m; // Average hashrate of a machine converted to TH/s from H/s
             var avgMachineEnergyConsumptionInKWH = device.PowerConsumption / 1000m; // Average machine energy consumption converted to KW/h from W/h
@@ -105,8 +114,7 @@ namespace Carbonara.Services.CalculationService
             var noOfMachinesDoingTheMinning = networkHashRateInTHs / avgMachineHashRateInTHs; // The number of machines that were doing the mining for that block, under the assumption that all of them mined
             var energyConsumptionPerMachinePerBlockInKWH = avgMachineEnergyConsumptionInKWH * blockParameters.BlockTimeInSeconds / 3600m;
 
-            var fullEnergyConsumptionPerTransactionInKWH = noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH / blockParameters.NumberOfTransactionsInBlock;
-            return fullEnergyConsumptionPerTransactionInKWH;
+            return noOfMachinesDoingTheMinning * energyConsumptionPerMachinePerBlockInKWH;
         }
 
         private List<EnergyConsumptionPerPool> DistributeEnergyPerPoolParticipationInTheHashRate(
@@ -131,11 +139,11 @@ namespace Carbonara.Services.CalculationService
             return energyConsumptionPerPoolPerTransactionInKwh;
         }
 
-        private List<EnergyConsumptionPerCountry> DistributeEnergyUsedByPoolsPerCountry(
+        private List<EnergyConsumptionPerCountryInKWh> DistributeEnergyUsedByPoolsPerCountry(
             List<EnergyConsumptionPerPool> energyConsumptionPerPool,
             List<PoolTypeHashRateDistribution> geoDistributionOfHashratePerPoolType)
         {
-            var energyConsumptionPerCountryPerTransactionInKwh = new List<EnergyConsumptionPerCountry>();
+            var energyConsumptionPerCountryPerTransactionInKwh = new List<EnergyConsumptionPerCountryInKWh>();
 
             foreach (var energyPerPool in energyConsumptionPerPool)
             {
@@ -148,15 +156,15 @@ namespace Carbonara.Services.CalculationService
 
                     if (consumptionPerCountry != null)
                     {
-                        consumptionPerCountry.EnergyConsumption += energyPerPool.EnergyConsumption * geoPoolDistribution.Percentage / 100m;
+                        consumptionPerCountry.EnergyConsumptionInKWh += energyPerPool.EnergyConsumption * geoPoolDistribution.Percentage / 100m;
                     }
                     else
                     {
                         energyConsumptionPerCountryPerTransactionInKwh.Add(
-                            new EnergyConsumptionPerCountry
+                            new EnergyConsumptionPerCountryInKWh
                             {
                                 CountryCode = geoPoolDistribution.CountryCode,
-                                EnergyConsumption = energyPerPool.EnergyConsumption * geoPoolDistribution.Percentage / 100m
+                                EnergyConsumptionInKWh = energyPerPool.EnergyConsumption * geoPoolDistribution.Percentage / 100m
                             }
                         );
                     }
@@ -167,7 +175,7 @@ namespace Carbonara.Services.CalculationService
         }
 
         private List<Co2EmissionPerCountry> TranslateEnergyEmissionPerCountryToCo2EmissionPerCountry(
-            List<EnergyConsumptionPerCountry> energyConsumptionPerCountry,
+            List<EnergyConsumptionPerCountryInKWh> energyConsumptionPerCountry,
             List<Country> countriesWithAvgCo2Emission,
             string countryToUseForCo2EmissionAverage)
         {
@@ -177,19 +185,41 @@ namespace Carbonara.Services.CalculationService
             {
                 // Either use the user provided country for avg emissions or use avg emissions per country
                 var avgEmissionPerEnergyInGrams = String.IsNullOrEmpty(countryToUseForCo2EmissionAverage) ?
-                    countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2Emission :
-                    countriesWithAvgCo2Emission.First(c => c.CountryCode == countryToUseForCo2EmissionAverage).Co2Emission;
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2EmissionInKg :
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == countryToUseForCo2EmissionAverage).Co2EmissionInKg;
 
                 co2PerCountry.Add(
                     new Co2EmissionPerCountry
                     {
                         CountryCode = consumptionPerCountry.CountryCode,
-                        Co2Emission = consumptionPerCountry.EnergyConsumption * avgEmissionPerEnergyInGrams / 1000m
+                        Co2Emission = consumptionPerCountry.EnergyConsumptionInKWh * avgEmissionPerEnergyInGrams / 1000m
                     }
                 );
             }
 
             return co2PerCountry;
+        }
+
+        public async Task<decimal> CalculateBlockEnergyConsumptionAsync(string blockHash)
+        {
+            var blockParameters = await _blockParametersService.GetBlockParametersByBlockHash(blockHash);
+
+            var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(blockParameters.TimeOfBlockMining);
+            var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
+
+            var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
+
+            var fullEnergyConsumptionPerTransactionInKWHPerYear =
+                await this.CalculateTheFullEnergyConsumptionPerTransactionPerYear(blockParameters);
+
+            var networkHashRateInTHs = await _networkHashRateService.GetDailyHashRateInPastAsync(blockParameters.TimeOfBlockMining); // Provided in TH/s
+
+            var blockDate = DateTime.UnixEpoch.AddSeconds(blockParameters.TimeOfBlockMining);
+
+            var devices = await _miningHardwareService.GetHardwareByMiningAlgorithm(MiningAlgorithm.SHA256);
+            var device = devices.First(d => d.ProductionYear == blockDate.Year);
+
+            return CalculateFullEnergyConsumptionPerBlockInKwhByDevice(blockParameters, networkHashRateInTHs, device);
         }
     }
 }
