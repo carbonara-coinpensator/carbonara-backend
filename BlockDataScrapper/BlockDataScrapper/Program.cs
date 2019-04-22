@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -9,15 +8,9 @@ using Newtonsoft.Json;
 
 namespace BlockDataScrapper
 {
-     public class Dto 
-     {
-        public string Timestamp { get; set; }
-        public string Hash { get; set; }
-     }
-
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             //GetBitcoinData().GetAwaiter().GetResult();
             GetCarbonaraData().GetAwaiter().GetResult();
@@ -26,8 +19,8 @@ namespace BlockDataScrapper
         private static async Task GetBitcoinData()
         {
             var client = new HttpClient();
-            var startDate = new DateTime(2013, 1, 1);
-            var endDate = new DateTime(2013, 1, 10);
+            var startDate = new DateTime(2018, 1, 1);
+            var endDate = new DateTime(2018, 1, 2);
 
             var sb = new StringBuilder();
 
@@ -53,9 +46,7 @@ namespace BlockDataScrapper
                     Thread.Sleep(3000);
                 }
 
-                File.WriteAllText("data.txt", sb.ToString());
-
-                Console.Read();
+                File.AppendAllText("data.txt", sb.ToString());
             }
 
             catch (Exception e)
@@ -68,15 +59,34 @@ namespace BlockDataScrapper
         {
             var bitcoinData = File.ReadAllLines("data.txt");
             var client = new HttpClient();
+            var sb = new StringBuilder();
 
-
-            foreach (var line in bitcoinData)
+            for (var i = 0; i < bitcoinData.Length; i+=7)
             {
-                var hash = line.Split(' ')[0];
+                var hash1 = bitcoinData[i].Split(' ')[0];
+                var hash2 = bitcoinData[i + 3].Split(' ')[0];
+                var hash3 = bitcoinData[i + 6].Split(' ')[0];
+                
+                var response1 = await client.GetAsync($"https://localhost:5001/api/carbonara/block/calculation?blockHash={hash1}");
+                var result1 = await response1.Content.ReadAsStringAsync();
+                Thread.Sleep(10000);
 
-                var response = await client.GetAsync($"https://localhost:5001/api/carbonara/block/calculation?blockHash={hash}");
-                var content = await response.Content.ReadAsStringAsync();
+                var response2 = await client.GetAsync($"https://localhost:5001/api/carbonara/block/calculation?blockHash={hash2}");
+                var result2 = await response2.Content.ReadAsStringAsync();
+                Thread.Sleep(10000);
+
+                var response3 = await client.GetAsync($"https://localhost:5001/api/carbonara/block/calculation?blockHash={hash3}");
+                var result3 = await response3.Content.ReadAsStringAsync();
+                Thread.Sleep(10000);
+
+                var average = (decimal.Parse(result1) + decimal.Parse(result2) + decimal.Parse(result3)) / 3m;
+
+                sb.AppendLine($"x: {average}, y: {bitcoinData[i].Split(' ')[1]}, date: {bitcoinData[i].Split(' ')[2]}");
             }
+
+            File.AppendAllText("data-carbonara.txt", sb.ToString());
+
+            Console.Read();
         }
     }
 }
