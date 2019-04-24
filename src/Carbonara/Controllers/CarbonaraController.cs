@@ -89,6 +89,7 @@ namespace Carbonara.Controllers
         }
 
         [HttpGet("Block/Calculation")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> GetEnergyConsumptionOfBlock([FromQuery(Name = "BlockHash")] string blockHash)
         {
             var energyConsumption = await _calculationService.CalculateBlockEnergyConsumptionAsync(blockHash);
