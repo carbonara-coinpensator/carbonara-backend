@@ -26,7 +26,7 @@
     <Content Include="../Resources/HashRateDistributionPerPool.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../Resources/BitcoinCo2EmissionChart.json">
+    <Content Include="../Resources/BitcoinEnergyConsumptionChart.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="../Resources/BitcoinPriceChart.json">

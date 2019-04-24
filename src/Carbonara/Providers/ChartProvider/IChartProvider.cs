@@ -7,6 +7,6 @@ namespace Carbonara.Providers.ChartProvider
     public interface IChartProvider
     {
         Task<List<ChartValue>> GetPriceChartAsync();
-        Task<List<ChartValue>> GetCo2EmissionChartAsync();
+        Task<List<ChartValue>> GetEnergyConsumptionChartAsync();
     }
 }

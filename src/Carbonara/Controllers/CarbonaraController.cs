@@ -96,9 +96,9 @@ namespace Carbonara.Controllers
         }
 
         /// <summary>
-        /// Get bitcoin co2 emission and price chart
+        /// Get bitcoin energy consumption and price chart
         /// </summary>
-        /// <response code="200">Returns co2 emission and price chart </response>
+        /// <response code="200">Returns energy consumption and price chart </response>
         [HttpGet("Charts")]
         public async Task<IActionResult> GetBitcoinChartsAsync()
         {
