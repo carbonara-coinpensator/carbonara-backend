@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Carbonara.Models.Formula;
 using Carbonara.Providers;
@@ -31,7 +32,7 @@ namespace Carbonara.Services.BlockParametersService
 
             var previousBlockDetails = await _blockExplorerProvider.GetBlockDetailsAsync(blockDetails.data.previous_blockhash);
 
-            var blockTimeInSeconds = blockDetails.data.time - previousBlockDetails.data.time;
+            var blockTimeInSeconds = Math.Abs(blockDetails.data.time - previousBlockDetails.data.time);
 
             return new BlockParameters
             {
