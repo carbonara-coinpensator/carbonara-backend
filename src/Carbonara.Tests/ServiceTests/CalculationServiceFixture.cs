@@ -75,12 +75,12 @@ namespace Carbonara.Tests.ServiceTests
                 (
                     new List<Country>()
                     {
-                        new Country { CountryCode = "CA", Co2EmissionInKg = 158.42m },
-                        new Country { CountryCode = "CN", Co2EmissionInKg = 711.3686m },
-                        new Country { CountryCode = "EU", Co2EmissionInKg =  336.8498m },
-                        new Country { CountryCode = "JP", Co2EmissionInKg = 571.5443m },
-                        new Country { CountryCode = "SG", Co2EmissionInKg = 431.3m },
-                        new Country { CountryCode = "US", Co2EmissionInKg = 489.4282m },
+                        new Country { CountryCode = "CA", Co2Emission = 158.42m },
+                        new Country { CountryCode = "CN", Co2Emission = 711.3686m },
+                        new Country { CountryCode = "EU", Co2Emission =  336.8498m },
+                        new Country { CountryCode = "JP", Co2Emission = 571.5443m },
+                        new Country { CountryCode = "SG", Co2Emission = 431.3m },
+                        new Country { CountryCode = "US", Co2Emission = 489.4282m },
                     }
                 )
             );
