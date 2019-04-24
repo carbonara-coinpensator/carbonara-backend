@@ -6,6 +6,6 @@ namespace Carbonara.Models.Chart
     {
         public List<ChartValue> PriceChart { get; set; }
 
-        public List<ChartValue> Co2EmissionChart { get; set; }
+        public List<ChartValue> EnergyConsumptionChart { get; set; }
     }
 }

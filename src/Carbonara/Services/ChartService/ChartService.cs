@@ -16,12 +16,12 @@ namespace Carbonara.Services.ChartService
         public async Task<BitcoinCharts> GetBitcoinChartsAsync()
         {
             var priceChart = await _chartProvider.GetPriceChartAsync();
-            var co2EmissionChart = await _chartProvider.GetEnergyConsumptionChartAsync();
+            var energyConsumptionChart = await _chartProvider.GetEnergyConsumptionChartAsync();
 
             return new BitcoinCharts
             {
                 PriceChart = priceChart,
-                Co2EmissionChart = co2EmissionChart
+                EnergyConsumptionChart = energyConsumptionChart
             };
         }
     }
