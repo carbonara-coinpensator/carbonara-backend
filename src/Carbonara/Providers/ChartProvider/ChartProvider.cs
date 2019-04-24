@@ -15,9 +15,9 @@ namespace Carbonara.Providers.ChartProvider
             return chart;
         }
 
-        public async Task<List<ChartValue>> GetCo2EmissionChartAsync()
+        public async Task<List<ChartValue>> GetEnergyConsumptionChartAsync()
         {
-            var chart = await ReadDevicesFromFile($"BitcoinCo2EmissionChart.json");
+            var chart = await ReadDevicesFromFile($"BitcoinEnergyConsumptionChart.json");
             return chart;
         }
 
