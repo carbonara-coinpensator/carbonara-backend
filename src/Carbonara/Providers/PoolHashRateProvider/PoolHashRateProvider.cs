@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Carbonara.Providers.PoolHashRateProvider
 {
-    public class PoolHashRateProvider : BaseJsonFileProvider, IPoolHashRateProvider
+    public class PoolHashRateProvider : BaseLiteDbProvider, IPoolHashRateProvider
     {
         public PoolHashRateProvider()
         {
@@ -17,11 +17,11 @@ namespace Carbonara.Providers.PoolHashRateProvider
 
         public async Task<List<Pool>> GetDistributionBasedOnDateAsync(DateTime date)
         {
-            var distribution = await ReadFromFileAndDeserialize<PoolHashRateDistribution>("HashRateDistribution.json");
+            var distributions = await ReadCollectionFromDb<Distribution>("globalhashratedistributions");
 
             var yearPeriod = date.Month <= 6 ? 1 : 2;
 
-            var txDistribution = distribution.Distribution.First(d => d.Year == date.Year && d.YearPeriod == yearPeriod);
+            var txDistribution = distributions.First(d => d.Year == date.Year && d.YearPeriod == yearPeriod);
 
             return txDistribution.PoolInformation.ToList();
         }

@@ -185,8 +185,8 @@ namespace Carbonara.Services.CalculationService
             {
                 // Either use the user provided country for avg emissions or use avg emissions per country
                 var avgEmissionPerEnergyInGrams = String.IsNullOrEmpty(countryToUseForCo2EmissionAverage) ?
-                    countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2EmissionInKg :
-                    countriesWithAvgCo2Emission.First(c => c.CountryCode == countryToUseForCo2EmissionAverage).Co2EmissionInKg;
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == consumptionPerCountry.CountryCode).Co2Emission :
+                    countriesWithAvgCo2Emission.First(c => c.CountryCode == countryToUseForCo2EmissionAverage).Co2Emission;
 
                 co2PerCountry.Add(
                     new Co2EmissionPerCountry
