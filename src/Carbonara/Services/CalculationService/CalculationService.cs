@@ -14,6 +14,8 @@ using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Models.Formula;
 using Carbonara.Services.MiningHardwareService;
 using Carbonara.Services.NetworkHashRateService;
+using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace Carbonara.Services.CalculationService
 {
@@ -25,6 +27,7 @@ namespace Carbonara.Services.CalculationService
         private readonly ICountryCo2EmissionService _countryCo2EmissionService;
         private readonly IMiningHardwareService _miningHardwareService;
         private readonly IHashRatePerPoolService _hashRatePerPoolService;
+        private readonly IConfiguration _configuration;
 
         public CalculationService(
             IBlockParametersService blockParametersService,
@@ -32,7 +35,8 @@ namespace Carbonara.Services.CalculationService
             IPoolHashRateService poolHashRateService,
             ICountryCo2EmissionService countryCo2EmissionService,
             IMiningHardwareService miningHardwareService,
-            IHashRatePerPoolService hashRatePerPoolService)
+            IHashRatePerPoolService hashRatePerPoolService,
+            IConfiguration configuration)
         {
             _blockParametersService = blockParametersService;
             _networkHashRateService = networkHashRateService;
@@ -40,6 +44,7 @@ namespace Carbonara.Services.CalculationService
             _countryCo2EmissionService = countryCo2EmissionService;
             _miningHardwareService = miningHardwareService;
             _hashRatePerPoolService = hashRatePerPoolService;
+            _configuration = configuration;
         }
 
         public async Task<TotalCalculationResult> Calculate(string txHash, string hashingAlg, string countryToUseForCo2EmissionAverage)
@@ -93,13 +98,18 @@ namespace Carbonara.Services.CalculationService
                 return result;
             }
 
-            var taskResults = new List<Task<TotalCalculationResult>>();
+            var waitingTime = int.Parse(_configuration["RequestWaitingTime"]);
+
+            var results = new List<TotalCalculationResult>();
             foreach (var txHash in txHashes)
             {
-                taskResults.Add(Calculate(txHash, hashingAlg, countryToUseForCo2EmissionAverage));
-            }
+                var calculationResult = await Calculate(txHash, hashingAlg, countryToUseForCo2EmissionAverage);
+                results.Add(calculationResult);
 
-            var results = (await Task.WhenAll(taskResults)).ToList();
+                // we have to add some waiting time between requests because of API provider we use which doesn't allow more than 5 requests per second currently
+                // hopefully this is only temporary solution
+                Thread.Sleep(waitingTime);
+            }
 
             result.AverageCo2EmissionPerCountryInKg = results.First().AverageCo2EmissionPerCountryInKg; // always the same, use the first
 
