@@ -106,6 +106,8 @@ namespace Carbonara.Services.CalculationService
                 var calculationResult = await Calculate(txHash, hashingAlg, countryToUseForCo2EmissionAverage);
                 results.Add(calculationResult);
 
+                // we have to add some waiting time between requests because of API provider we use which doesn't allow more than 5 requests per second currently
+                // hopefully this is only temporary solution
                 Thread.Sleep(waitingTime);
             }
 
