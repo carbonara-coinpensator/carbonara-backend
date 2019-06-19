@@ -46,13 +46,13 @@ namespace Carbonara.Services.CalculationService
         {
             var result = new TotalCalculationResult();
 
+            var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync(); //fix 
+            var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync(); //fix
+            result.AverageCo2EmissionPerCountryInKg = countriesWithAvgCo2Emission;
+
             var transactionBlockParameters = await _blockParametersService.GetBlockParametersByTxHash(txHash);
 
             var hashRateDistributionPerPool = await _poolHashRateService.GetPoolHashRateDistributionForTxDateAsync(transactionBlockParameters.TimeOfBlockMining);
-            var geoDistributionOfHashratePerPoolType = await _hashRatePerPoolService.GetHashRatePerPoolAsync();
-
-            var countriesWithAvgCo2Emission = await _countryCo2EmissionService.GetCountriesCo2EmissionAsync();
-            result.AverageCo2EmissionPerCountryInKg = countriesWithAvgCo2Emission;
 
             var fullEnergyConsumptionPerTransactionInKWHPerYear =
                 await this.CalculateTheFullEnergyConsumptionPerTransactionPerYear(transactionBlockParameters);
@@ -77,9 +77,61 @@ namespace Carbonara.Services.CalculationService
 
                 result.CalculationPerYear.Add(year, calculationResultForYear);
             }
-            
-            result.transactionDate = DateTime.UnixEpoch.AddSeconds(transactionBlockParameters.TimeOfBlockMining);
 
+            result.TransactionDates = new List<KeyValuePair<string, DateTime>> {
+                new KeyValuePair<string, DateTime>(txHash, DateTime.UnixEpoch.AddSeconds(transactionBlockParameters.TimeOfBlockMining))
+                };
+
+            return result;
+        }
+
+        public async Task<TotalCalculationResult> CalculateTotalSummary(List<string> txHashes, string hashingAlg, string countryToUseForCo2EmissionAverage)
+        {
+            var result = new TotalCalculationResult();
+            if (!txHashes.Any())
+            {
+                return result;
+            }
+
+            var taskResults = new List<Task<TotalCalculationResult>>();
+            foreach (var txHash in txHashes)
+            {
+                taskResults.Add(Calculate(txHash, hashingAlg, countryToUseForCo2EmissionAverage));
+            }
+
+            var results = (await Task.WhenAll(taskResults)).ToList();
+
+            result.AverageCo2EmissionPerCountryInKg = results.First().AverageCo2EmissionPerCountryInKg; // always the same, use the first
+
+            var years = results.First().CalculationPerYear.Keys.ToList();
+            var countryCodes = results.First().CalculationPerYear.Values.First().EnergyConsumptionPerCountryInKWh.Select(v => v.CountryCode).ToList();
+
+            result.CalculationPerYear = new Dictionary<int, CalculationResult>();
+            foreach (var year in years)
+            {
+                var calculationResult = new CalculationResult
+                {
+                    FullCo2EmissionInKg = results.Select(i => i.CalculationPerYear[year])
+                        .Sum(v => v.FullCo2EmissionInKg),
+                    EnergyConsumptionPerCountryInKWh = new List<EnergyConsumptionPerCountryInKWh>()
+                };
+
+                foreach (var countryCode in countryCodes)
+                {
+                    calculationResult.EnergyConsumptionPerCountryInKWh.Add(new EnergyConsumptionPerCountryInKWh
+                    {
+                        CountryCode = countryCode,
+                        EnergyConsumptionInKWh = results.Select(i => i.CalculationPerYear[year]
+                                    .EnergyConsumptionPerCountryInKWh
+                                    .First(b => b.CountryCode.Equals(countryCode)))
+                            .Sum(value => value.EnergyConsumptionInKWh)
+                    });
+                }
+
+                result.CalculationPerYear.Add(year, calculationResult);
+            }
+
+            result.TransactionDates = results.Select(i => i.TransactionDates.First()).ToList();
             return result;
         }
 

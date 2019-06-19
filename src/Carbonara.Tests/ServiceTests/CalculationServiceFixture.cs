@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Carbonara.Models.Country;
@@ -175,11 +176,54 @@ namespace Carbonara.Tests.ServiceTests
             Assert.Equal(192, Math.Round(result.CalculationPerYear[2013].FullCo2EmissionInKg));
         }
 
+        [Theory]
+        [InlineData(2)]
+        [InlineData(6)]
+        public async Task TestCalculateMultipleTransactionsWithEmissions(int count)
+        {
+            var txHashes = new List<string> { txHash };
+            var result = await _calculationService.CalculateTotalSummary(txHashes, null, null);
+            var emissionsIn2013 = result.CalculationPerYear[2013].FullCo2EmissionInKg;
+            var consumptionIn2013 = result.CalculationPerYear[2013].EnergyConsumptionPerCountryInKWh.First(item => item.CountryCode.Equals("CA")).EnergyConsumptionInKWh;
+
+            for (var i = 1; i < count; i++) txHashes.Add(txHash); // adding the same hash multiple times should result to multiple co2 emission
+
+            var result2 = await _calculationService.CalculateTotalSummary(txHashes, null, null);
+            var doubleEmissionsIn2013 = result2.CalculationPerYear[2013].FullCo2EmissionInKg;
+            var doubleConsumptionForCAin2013 = result2.CalculationPerYear[2013].EnergyConsumptionPerCountryInKWh.First(item => item.CountryCode.Equals("CA")).EnergyConsumptionInKWh;
+
+            Assert.Equal(emissionsIn2013 * count, doubleEmissionsIn2013);
+            Assert.Equal(consumptionIn2013 * count, doubleConsumptionForCAin2013);
+        }
+
         [Fact]
         public async Task TestCalculateWithChinaEmissions()
         {
             var result = await _calculationService.Calculate(txHash, null, "CN");
             Assert.Equal(251, Math.Round(result.CalculationPerYear[2013].FullCo2EmissionInKg));
+        }
+
+        [Theory]
+        [InlineData("CA")]
+        [InlineData("CN")]
+        [InlineData("EU")]
+        [InlineData("JP")]
+        [InlineData("SG")]
+        [InlineData("US")]
+        public async Task TestCalculateMultipleTransactionsSpecificCountryEmissions(string country)
+        {
+            var txHashes = new List<string> { txHash };
+            var result = await _calculationService.CalculateTotalSummary(txHashes, null, country);
+            var emissionsIn2013 = result.CalculationPerYear[2013].FullCo2EmissionInKg;
+            var consumptionIn2013 = result.CalculationPerYear[2013].EnergyConsumptionPerCountryInKWh.First(item => item.CountryCode.Equals(country)).EnergyConsumptionInKWh;
+
+            txHashes.Add(txHash); // twice the same hash should result to double the co2 emission
+            var result2 = await _calculationService.CalculateTotalSummary(txHashes, null, country);
+            var doubleEmissionsIn2013 = result2.CalculationPerYear[2013].FullCo2EmissionInKg;
+            var doubleConsumptionIn2013 = result2.CalculationPerYear[2013].EnergyConsumptionPerCountryInKWh.First(item => item.CountryCode.Equals(country)).EnergyConsumptionInKWh;
+
+            Assert.Equal(emissionsIn2013 * 2, doubleEmissionsIn2013);
+            Assert.Equal(consumptionIn2013 * 2, doubleConsumptionIn2013);
         }
 
         [Fact]

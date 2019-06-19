@@ -7,11 +7,14 @@ namespace Carbonara.Models.Calculation
     {
         public Dictionary<int, CalculationResult> CalculationPerYear;
         public List<Country.Country> AverageCo2EmissionPerCountryInKg;
-        public DateTime transactionDate; 
+        public List<KeyValuePair<string, DateTime>> TransactionDates; 
         public TotalCalculationResult()
         {
             if (CalculationPerYear == null)
                 CalculationPerYear = new Dictionary<int, CalculationResult>();
+
+            if (TransactionDates == null)
+                TransactionDates = new List<KeyValuePair<string, DateTime>>();
         }
     }
 }
