@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Carbonara.Models.Country;
 using Carbonara.Models.Formula;
 using Carbonara.Models.MiningHardware;
@@ -16,7 +10,12 @@ using Carbonara.Services.HashRatePerPoolService;
 using Carbonara.Services.MiningHardwareService;
 using Carbonara.Services.NetworkHashRateService;
 using Carbonara.Services.PoolHashRateService;
+using Microsoft.Extensions.Configuration;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Carbonara.Tests.ServiceTests
@@ -28,6 +27,9 @@ namespace Carbonara.Tests.ServiceTests
 
         public CalculationServiceFixture()
         {
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.SetupGet(c => c["RequestWaitingTime"]).Returns("300");
+
             var blockParametersServiceMock = new Mock<IBlockParametersService>();
             blockParametersServiceMock.Setup(x => x.GetBlockParametersByTxHash(txHash))
                 .Returns(Task.FromResult
@@ -165,7 +167,8 @@ namespace Carbonara.Tests.ServiceTests
                 poolHashRateServiceMock.Object,
                 countryCo2EmissionServiceMock.Object,
                 miningHardwareServiceMock.Object,
-                hashRatePerPoolServiceMock.Object
+                hashRatePerPoolServiceMock.Object,
+                configurationMock.Object
             );
         }
 
