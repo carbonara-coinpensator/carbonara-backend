@@ -1,16 +1,6 @@
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Reflection;
-using System.Threading.Tasks;
-using Carbonara.Models;
-using Carbonara.Models.MiningHardware;
-using Carbonara.Providers;
 using Carbonara.Providers.BitcoinWalletProvider;
-using Carbonara.Services;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Carbonara.Tests.ProviderTests
@@ -23,7 +13,7 @@ namespace Carbonara.Tests.ProviderTests
         private readonly IBitcoinWalletProvider _bitcoinWalletProvider;
         public BitcoinWalletProviderFixture()
         {
-            _bitcoinWalletProvider = new BitcoinWalletProvider(new Services.HttpClientHandler.HttpClientHandler());
+            _bitcoinWalletProvider = new BitcoinWalletProvider(new Services.HttpClientHandler.CloudFlareHttpClientHandler());
         }
 
         [Fact]

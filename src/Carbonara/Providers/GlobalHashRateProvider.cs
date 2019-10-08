@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
 using Carbonara.Models;
-using Carbonara.Services;
+using Carbonara.Providers.BaseProviders;
 using Carbonara.Services.HttpClientHandler;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Carbonara.Providers
 {

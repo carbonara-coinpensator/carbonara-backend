@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Carbonara.Models.BitcoinWalletInformation;
+using Carbonara.Providers.BaseProviders;
 using Carbonara.Services.HttpClientHandler;
 
 namespace Carbonara.Providers.BitcoinWalletProvider
 {
-    public class BitcoinWalletProvider : BaseHttpProvider, IBitcoinWalletProvider
+    public class BitcoinWalletProvider : BaseCloudflareHttpProvider, IBitcoinWalletProvider
     {
         protected override string Endpoint => "https://chain.so/api/v2/get_tx_spent/btc";
 
-        public BitcoinWalletProvider(IHttpClientHandler httpClient)
-            : base(httpClient)
+        public BitcoinWalletProvider(ICloudFlareHttpClientHandler cloudFlareHttpClientHandler)
+            : base(cloudFlareHttpClientHandler)
         {
         }
 

@@ -1,17 +1,16 @@
-using System.Threading.Tasks;
 using Carbonara.Models.BlockDetails;
 using Carbonara.Models.TransactionDetails;
-using Carbonara.Services;
+using Carbonara.Providers.BaseProviders;
 using Carbonara.Services.HttpClientHandler;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Carbonara.Providers
 {
-    public class BlockExplorerProvider : BaseHttpProvider, IBlockExplorerProvider
+    public class BlockExplorerProvider : BaseCloudflareHttpProvider, IBlockExplorerProvider
     {
         protected override string Endpoint => "https://chain.so/api/v2";
 
-        public BlockExplorerProvider(IHttpClientHandler httpClient)
+        public BlockExplorerProvider(ICloudFlareHttpClientHandler httpClient)
             : base(httpClient)
         {
         }

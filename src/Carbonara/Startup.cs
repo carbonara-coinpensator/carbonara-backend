@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Carbonara.Providers;
 using Carbonara.Providers.ChartProvider;
 using Carbonara.Providers.CountryCo2EmissionProvider;
@@ -20,13 +17,10 @@ using Carbonara.Services.NetworkHashRateService;
 using Carbonara.Services.PoolHashRateService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Carbonara.Services.BitcoinWalletInformationService;
 using Carbonara.Providers.BitcoinWalletProvider;
@@ -61,6 +55,7 @@ namespace Carbonara
             });
 
             services.AddSingleton<IHttpClientHandler, HttpClientHandler>();
+            services.AddSingleton<ICloudFlareHttpClientHandler, CloudFlareHttpClientHandler>();
             services.AddScoped<ICalculationService, CalculationService>();
             services.AddScoped<IBlockParametersService, BlockParametersService>();
             services.AddScoped<INetworkHashRateService, NetworkHashRateService>();
@@ -103,8 +98,8 @@ namespace Carbonara
                             async context =>
                             {
                                 var ex = context.Features.Get<IExceptionHandlerFeature>();
-                                context.Response.StatusCode = ex.Error.GetType() == typeof(ThirdPartyApiUnreachableException) ? 
-                                    (int)HttpStatusCode.BadGateway : 
+                                context.Response.StatusCode = ex.Error.GetType() == typeof(ThirdPartyApiUnreachableException) ?
+                                    (int)HttpStatusCode.BadGateway :
                                     (int)HttpStatusCode.InternalServerError;
                                 context.Response.ContentType = "text/html";
                                 await context.Response.WriteAsync(ex.Error.Message).ConfigureAwait(false);
