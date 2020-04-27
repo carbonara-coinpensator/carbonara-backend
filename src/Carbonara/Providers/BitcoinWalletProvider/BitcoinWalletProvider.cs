@@ -9,7 +9,9 @@ namespace Carbonara.Providers.BitcoinWalletProvider
 {
     public class BitcoinWalletProvider : BaseCloudflareHttpProvider, IBitcoinWalletProvider
     {
-        protected override string Endpoint => "https://chain.so/api/v2/get_tx_spent/btc";
+        //protected override string Endpoint => "https://chain.so/api/v2/get_tx_spent/btc";
+        //use updated API as of April 2020
+        protected override string Endpoint => "https://sochain.com/api/v2/get_address_spent/btc";
 
         public BitcoinWalletProvider(ICloudFlareHttpClientHandler cloudFlareHttpClientHandler)
             : base(cloudFlareHttpClientHandler)

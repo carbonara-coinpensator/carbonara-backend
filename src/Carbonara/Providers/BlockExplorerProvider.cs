@@ -8,7 +8,9 @@ namespace Carbonara.Providers
 {
     public class BlockExplorerProvider : BaseCloudflareHttpProvider, IBlockExplorerProvider
     {
-        protected override string Endpoint => "https://chain.so/api/v2";
+        //protected override string Endpoint => "https://chain.so/api/v2";
+        //Use updated (valid) URL - April 2020
+        protected override string Endpoint => "https://sochain.com/api/v2";
 
         public BlockExplorerProvider(ICloudFlareHttpClientHandler httpClient)
             : base(httpClient)
